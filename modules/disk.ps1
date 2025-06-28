@@ -13,7 +13,7 @@ function Executar-CHKDSK {
         Write-Log '`n✔️ CHKDSK agendado com sucesso para a unidade $env:SystemDrive.' -ForegroundColor Green
         Write-Log 'Reinicie o computador para iniciar a verificação.' -ForegroundColor Yellow
     } catch {
-        Write-Log '`n❌ Falha ao agendar o CHKDSK. Erro: $_' -ForegroundColor Red
+        Write-Log "`n❌ Falha ao agendar o CHKDSK. Erro: $_" -ForegroundColor Red
     }
     Read-Host '`nPressione ENTER para voltar ao menu'
 }
@@ -40,7 +40,7 @@ function Executar-Limpeza {
                 Write-Log '✔️  Limpeza de $pasta concluída.' -ForegroundColor Green
             } catch {
                 # Captura erros inesperados durante a limpeza.
-                Write-Log '❌ Falha ao limpar '$pasta': $($_.Exception.Message)' -ForegroundColor Red
+                Write-Log "❌ Falha ao limpar '$pasta': $($_.Exception.Message)" -ForegroundColor Red
             }
         } else {
             Write-Log '`n⚠️ Pasta não encontrada: $pasta' -ForegroundColor Yellow
@@ -61,20 +61,20 @@ function Verificar-SMART {
         foreach ($disco in $discos) {
             Write-Host '`nModelo: $($disco.Model)'
             $status = switch ($disco.Status) {
-                'OK' { Write-Host 'Status: $($disco.Status)' -ForegroundColor Green }
-                default { Write-Host 'Status: $($disco.Status)' -ForegroundColor Red }
+                'OK' { Write-Host "Status: $($disco.Status)" -ForegroundColor Green }
+                default { Write-Host "Status: $($disco.Status)" -ForegroundColor Red }
             }
         }
     } catch {
-        Write-Log '`n❌ Não foi possível verificar o status SMART. Erro: $($_.Exception.Message)' -ForegroundColor Red
+        Write-Log "`n❌ Não foi possível verificar o status SMART. Erro: $($_.Exception.Message)" -ForegroundColor Red
     }
     Read-Host '`nPressione ENTER para voltar ao menu'
 }
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUGFFWVMbFoXcYrT4zGmsS4deT
-# Sc6gghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7/iPizpaaPSeYmPrkYplZX3R
+# FO+gghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -195,28 +195,28 @@ function Verificar-SMART {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFEbRSVCJhNCknu6lG86jSokffnrvMA0GCSqGSIb3DQEBAQUABIIBAF+O
-# GN7/PLTDfv6vmo/C4yRn52V4xOet0PFCRoCyQV7xJyS8fQNza8qQ3TmhP3CypYsz
-# NXnVUpriUOoiCBu4ejwk4yTvl2QwyqFcGpwQNn0Y6i4RrIztclprO+Us8Ds1zkjr
-# UZeYGxRGp1bwghZ6uXoVLye0C26sRR7129MZ3U4JBUGGYFguywJtb6PrrZb48/yz
-# psu5WPSq2BBBpSCn9pOveLGWAF5DNV/Ds6+xUj7otHLA1r5iF+nPYFM6RRrcE/Y/
-# 65bh+koi7BTCe3GeHo20VoR7mXEci9mGaDAOMnPKIbYlKcztIdLAKDYvI2l0UwWp
-# 44fuQD+OQK0vc8qIv0ChggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFKgFdl6Sl1z3JloV1y3oBKrZlPPzMA0GCSqGSIb3DQEBAQUABIIBAFBo
+# kuifrCyj3YLzm2CbUO1p/U7sWk2vWvrhZ00JH4HC+mWXI3Mibkint9SpaS20e0o8
+# +c96qAq3J+sFPTLNyli5oBaQKREjaua6J0I3kC7pPrUvu7frIazWhBJkvdNh7k56
+# 8MJK4ZwYmqOmtM1cIJcF+SIJr3nL968pPOyCpmnuXbGrjl0WEsP1cvVg8CgOtZ6N
+# JGhtuTS8IszFFVjEVNxjTB0iciBk40+64tRPlAV4/ANFH5Kgchb2LcyOtNV7MAmK
+# Q2ivECf3cLMHkzXE529QRhx/aeDgjyKLDkUfikHeDY0rFUVjU4jfgRILHghCAo3G
+# nA/zSbndspqZgBwZ+kGhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMzMzI1WjAv
-# BgkqhkiG9w0BCQQxIgQg1L7imcmkdyepYdUR3IssYHD2r5RMgzPTADoi5Bk8LoQw
-# DQYJKoZIhvcNAQEBBQAEggIAF58MgzUuMq3hoDjtq+2CTVvjsizy7LiLGco4g45r
-# OCKfjQYdIWvPj9LacquJF8kDpDMwACjwgJ5dv/nOuSBHRS15Hs4EfaSDn9Q3cqeQ
-# qVp3HIMagIpAFajzbawY90dkulaZWJCA4CcLCbMCVDr9VtW27m+H6nyMEXFhD1Rx
-# 2h9aH2M93uE1clr44s+KF4b38zX36m3NqW8YjcjLtVUFa1L9RYA9v4lnizuR/wLu
-# 62hYFwAv3q4loFhl9ohBovyE8R0m6ZUyyCxuVNZ0405b63PuT2OCZHA4+u2dgx76
-# 7ErSqRYUa5jlCx4LxEAr1RrtCWG6DpXwzHEuq8dFHmquHeHlsspu647NV1hWhIme
-# fyS50PQFQfjfn5oSyDhETXfW5sUVwvVHExrzidvixh/g0Efl0JXxpRfiL3q37g7e
-# vdLe+OSNQ6q0tNneM0dCaVfKG7RpibT/rcQnBnGSAAverLv6dbWmvp1i2/T74+Zl
-# 8r8rgd7Tpig3VPwn5G2MXMNI1mfR/jq8lET2RL+zBpAD0lVqYGCEV0jGXFc+qEcQ
-# buvAVwXRNKnEBCx0FAgifFkHjJb+7xKNhhATZWp21ygjqvPLVFdAFqo8slFXOXz1
-# 6E86VhOllvqHpLlrlIqZAp7Pb5eu7THg7OEwI5yeEqUVROSEQojX6W/0x04Ux7i0
-# coI=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMzNzE1WjAv
+# BgkqhkiG9w0BCQQxIgQgHvG/nyffyvR7qJP9pOXo/aegzBAeQgsQCCG9mrlZ5hUw
+# DQYJKoZIhvcNAQEBBQAEggIARt+5rmZyyVuCAgmQTg8DyM830MIl3hv3xity+ZWd
+# NZk4Q/knyk1xG3ZYXa/OTWeFMgRM28RsM1RMRTSmctoH+uey2JEEpPcpZiGRXmwc
+# XnzlsMnULiwjlU2O9+ApLWeswVOtXd1pIcggGv4Q2+5Klrcr9MpHDFUN5Zcbu5Dj
+# E4mR3RbMtP7m4DoJIMCCYQtfMlevtYkixAMPLYYT9AZwJ1o2z1Rr8lcyFkbog3a8
+# c6YkcQ1dTnvNdUSuy4La73cwnKKSznwHiYaayynD+HNSRNau0R5Db+X854ox3hyo
+# ieC6yNWYqoXsZgc7kzoxCU/0bBrEleCFQ32WSJ+Md0J1OJwlIQ+TAVx6+cqhgTMc
+# WrVqeVeHJnV2WtNSWfuwt4/AFhPCLUaKeAxW0ZnjOgCkbdocVCl4CwQ6y//uLGFp
+# oHvLg385k5DSVzRLe2zekIya3BXIEgkShV5U5BS/A6l5k05jAtPItI7WS4gUw9g8
+# XxALmrTdi0K3sc52g/qgBxzwrwM7UsQXUIURw053fAcWI058bWl7fSxDmPdXrCIT
+# ApQqmcN9DfufnUsM7LakGwGqs6CWLQm1fZEHlbFSxfEZk1jvUEJ4o07MrMy0umyL
+# EMFm5CK20ex97/pwBxhNhghgg1pSnXPnVDfhnIKH7dxmToSQYC/lNMW4Ft+sLIEP
+# CwY=
 # SIG # End signature block

@@ -122,7 +122,7 @@ function Reiniciar-WU {
         Write-Log 'Renomeando pastas de cache...'
         foreach ($pasta in $pastas) {
             if (Test-Path $pasta) {
-                Rename-Item -Path $pasta -NewName '$($pasta).old' -Force -ErrorAction Stop
+                Rename-Item -Path $pasta -NewName "$($pasta).old" -Force -ErrorAction Stop
             }
         }
 
@@ -131,7 +131,7 @@ function Reiniciar-WU {
 
         Write-Log '`n✔️ Componentes do Windows Update redefinidos com sucesso.' -ForegroundColor Green
     } catch {
-        Write-Log '`n❌ Falha ao redefinir o Windows Update. Erro: $($_.Exception.Message)' -ForegroundColor Red
+        Write-Log "`n❌ Falha ao redefinir o Windows Update. Erro: $($_.Exception.Message)" -ForegroundColor Red
         Write-Log 'Pode ser necessário reiniciar o computador.' -ForegroundColor Yellow
     }
     
@@ -140,8 +140,8 @@ function Reiniciar-WU {
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUwC2eh98JLRjzpiNFFj8YHbrm
-# 6UOgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUN/TbQ5XgaUZjzm3yLRdYU3fc
+# VdegghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -262,28 +262,28 @@ function Reiniciar-WU {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFLgpC8ZpdXderHF8lKF3c+y80R9uMA0GCSqGSIb3DQEBAQUABIIBAKXz
-# Otm391BNW2CxgM8w/d+nBVE3+1FDacgIAVCfIosRyZl7QJ9aZUC1UEXtgALzZYGk
-# atV5vGRylMTs02CJkFII9grDBpBny9aP/fyHMCalOTOo8E6afy54VVHsct7nN8ic
-# swyqtHVCv8DWUQbzVVQEUa0apQ1bHEOYocKyQpVLvyGPAEJbE1XQ2f6UWVfuqrmf
-# Q52yxzOifraDUL5s+Z8t9l/488LnJrtCdpPITT6HSc9YIAnc8QpyzPCpp5uL7Rhg
-# wd/cf95QyzfEnab75JrLPxEt5J+yNHYYzlozT4cNvp+9qN0W8VAjH5E7/L/AmtNE
-# J8jQTUkLw75yDymYG8ehggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFJwrptMSwWKmqGhH4NVIsX/vLZ3zMA0GCSqGSIb3DQEBAQUABIIBAC6C
+# o5I6nlSN3BrPjaJssM7CxEP9SHeGjiEerrEDg8AAsm+JbPxCyPxJ8g29G6jZvTFl
+# u7ryXvrYgwi8htConpRlaxXBFTu6R+qd+H/HpimRgFipfFz20pviVhIV6J45bzhB
+# ZJM+Z3Loded9TgD6T0e1CXPnCtP7tuuyf/CTzX6730IjezvBM916rYdF0iXIqVeI
+# ZjX9l2yVJIHLj+mE18dAwsCzwrCUSojaCtaezuLLxCEoN2EtF30PD4F4ZTINEnAC
+# mAjLiO4RNE4FyXyebg/LdT0GwndPJP1G8Wt/l2cnnr0LIAeZXB20nGmPUbutr4t/
+# maSPsTuoEphxSkddLrmhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMzMzI1WjAv
-# BgkqhkiG9w0BCQQxIgQgLi0kS2OSf3uJqtyws/ibgJWC0PaqroZfj/EX2QHuCugw
-# DQYJKoZIhvcNAQEBBQAEggIAM2cM0OS+6w8TBijOdBdYh8lBhTsFguAR1IKRL+Le
-# v31fbmrY1306eYSNUHZP+sWPGw5kGYp5wy9BVBbTTsxaNbMCr81em8EZAeLx8LRc
-# 3LEMqOA1t6HLj+mzpwQUEDE1a7ncqcc5jKb6V8q+FlNmuQo3swPnpwWVnZQjeWcR
-# 5U0LOhfM889voExE2LRpE9iUk5qAUBW2uxWxVaHCgX8YjF5wKUMgF7zrW++ZdlSd
-# KBBJrlIBmC71LF7nh7u5ppL5iax/S6QMCkLi9V5ygkhzhZ4Wx7oTHqkbj1+VLZV9
-# ZjBb6MIbIB2UAybpLjrD/9R/dZb25hfPg/nsJDOpAQPZN15XyB0kYQcZuz9oc+AY
-# Qzj+302+9n4bRLVrFOpeGTK5rkiF+6nvA2YpB0znOAVQD6CVz9/YIFQiDCLYspiO
-# 7mSxDpaSTZfrRrg0A5aWC1ZjfcvYEr/k+pS8YV+GK/6VM5M8ZH/37NsiQVgOmTQT
-# ldE8/IXbBqrHCQu2GGEWYj13tws6L8GLYTZYhMJ+uPwGxCvZi7AxKJL00Y5owNBO
-# 6kaS2KVx0bTwHb+AXHbFcIeu1AIlbLE9CO/fjT8aM+JHBNhyji5aISUYIxrc60+6
-# eyfrGloTx57c0GgQAmkdu8SNOwGMfjYuyPihi7ltBphyUh0dgCkDwex1IvHd89bc
-# bNY=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMzNzE2WjAv
+# BgkqhkiG9w0BCQQxIgQgIkx0B8eofEcyv5DIN9BAr/baTgfgX4xrx7nX2Isid9Mw
+# DQYJKoZIhvcNAQEBBQAEggIAXLl3M2z+eQDaG4YNsyDjOq8hntiUhIl7AcqSBQ6r
+# tPZKd49SoJUT9Vav3wf61l/3S1h3Oz9h21ZJqKi3b2YwOWTxYnPpYGU0UIJvOqz/
+# ukGo/7t74Gde9PlkOEeQvX3+HZqxbTtlg4s/pjvYPBfi9hQgojxVi1XYwjzR/exT
+# PtjCNjenBMN71EzxzLbg8576USYd2Ug/hPJaQILjLznvjfVrjAg0hwoPJj9VggVK
+# bB9wRgdFtv+mE6F+F+BFOSRygbbd4kMZ3KSdQ1vPg+1QUgcC/+GbE8nPyFcnBaCE
+# rMbp08PTCgDsUjrphc+LEF4nbAkYoz4oUx9VgOM+J2q/ZPqvDXc97Lxhaok1Tx/Q
+# ydIjhE7fnrQKnXRGsqtKkBojwFJzegdygHLtyR8jf5jmPme/VmS0XUlVVT7AlRNG
+# bptLJF0rtyW3wDi2A1/DsFllwvjxjitqTP9I7OPrp4ATMaNLLUoRZVG36JatGn+d
+# +6NEjorppvaeNT9LXVHKQcpcNCAtqnPXCYiAQWQeS+himncOPvSqpJ5BDhxgyiFg
+# 0e3KmCEb9u5qXcvVE/yO4racncurXuFu2eIY9+IXSXy6W5vn90BkmvjJ4gMKMNaF
+# VJ0oQxiSwyzK+JtGWuVg/6ZxFo7NEtO841oc8hEbzJTP8cG2unVHLMIFznLEdAKw
+# 4gE=
 # SIG # End signature block

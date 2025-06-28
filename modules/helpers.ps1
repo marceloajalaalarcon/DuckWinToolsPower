@@ -25,7 +25,7 @@ function Verificar-Antivirus {
             Write-Host
             Write-Host '🛡️ ALERTA: Antivírus de terceiro detectado!' -ForegroundColor White -BackgroundColor DarkRed
             Write-Host 'Ele pode interferir em algumas operações do script.' -ForegroundColor Yellow
-            Write-Host 'Antivírus encontrado: $($avList -join ', ')' -ForegroundColor Yellow
+            Write-Host "Antivírus encontrado: $($avList -join ', ')" -ForegroundColor Yellow
             Write-Host
             # Pausa para o usuário ler o alerta.
             Read-Host 'Pressione ENTER para continuar...'
@@ -38,8 +38,8 @@ function Verificar-Antivirus {
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUPoIRe5m3fzwQYSjkPOWejxbY
-# NxygghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUMZ0atfupiIlIIk/RjtPHlRth
+# MbegghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -160,28 +160,28 @@ function Verificar-Antivirus {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFPhPrZgveiMQVV00oQfrX9S4w/IrMA0GCSqGSIb3DQEBAQUABIIBAAKa
-# QWwH5gEIpc4B4FV1l2XGobIpY8nJaGbjeEZPQud9u3ElslWEBOeFgyy4F3dQU2JY
-# diX83mFepSB9c4td4ck7Zeq2MGAutC70YL1LIoFfn2xs9bZy9e2V1e51s9ulaV06
-# fLNlftO75IVAr2KrqMlKpDmhskQiEyTb6mdnQYvheK6i+mwmZGRDpHWHL7jwLY9V
-# t/DOuxENUiTatnaw2Y0Jq4IvuJZ6DLNO3unDGo0y7c789FxEmvIW7WgZEPboFxfK
-# WUJ2RqDdXUqHWI2qui+0XdPfq7Z7SiSiiN3OPHhQO/Dbop2q3IyUZhMNkZ6z97S6
-# hjmZ8CdIXM8IGMyy/tahggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFJguPgOSZj9lM5+JUDsORG62QC9hMA0GCSqGSIb3DQEBAQUABIIBAKFD
+# U2fyDJgyScnj61s5fUMX5zirwk3a2smyb1l9QysqUfZ4GRKe/6rytwh2esQibShV
+# NHVzdHleId78n4epp76bD1FsC309gajKSCnpNMRZ3ZvnMse8BnDx1bzv85Qeghw1
+# +0dbRsjlcw0E3YPdI8e5nj/l+/8x5nZQLQzXQPcNuA8lPfQK4LqEP2Emzu2w6kcO
+# Ys4i1F5VbbYXmCPvY+3Jpa5RPHDiZF3bua3MNp3x91aFsduSD524fsykPEj6tgTe
+# 1OSuQs1EHl9WuHuSDW7Tl7WGtQET5CZ8T8ClI4BGstv+XBgRe8SKrnZy3nqOca3q
+# +/DOE7cQi2VQsu7h+sihggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMzMzI1WjAv
-# BgkqhkiG9w0BCQQxIgQg7UFeKKS7zKjoHPFzwT6wiq7tsOsJnGvFC0Mrj7fAp5kw
-# DQYJKoZIhvcNAQEBBQAEggIAQ7I1oCOITtWBwHPnQfpiOKOpOR//8L5NnIt/GrPm
-# 3CiLd4BLdFb9aawNmNaKQ4Tk1VaDBnzA7Knr6OLg7PNG/bknlSPiRplz6vL5CtLG
-# iTBq3+6RUdFGu4By+irDvvCJgipBtVP8dVGCHoWaM4eZ3zQPECVLhz/4ShidnJyR
-# Ayrqsg5LxElv5Xan9E8oUF9C8eN/aU7Idl0FeA9rYf8zY+GRNABFuDOBlNEPBPlU
-# KisT+tJtMWfPLM+aAIuhDyNH6lmrXaRWFpE5Zfq5ooQZrwAo8kXLUdO61127XDwn
-# DfI51vIQ9UGZpkH396fzZwDjtIgttdotVEWwbXTEdHwUkKK8TkNUIPJYpS5sew4r
-# z6OmpMp+AJrQmLKakg7iiR2shKU+JxLi1mOJ8GkxWMb8rmtEOHoEHFqEJB9VGAnF
-# lZUKSaOYwTndg6ZdJ7wEMf01qXRXmairpxVdeme6Dmp+lzSTz2cGpO+Epmg4arYb
-# JnzNE0HslQoGoclsSjiXR3CHF/Q2qzRyR6+sFlAZzdSp8fLSDhcHJntRvBinsAaC
-# vFdNQOYan7HAXKxPgZ0C8qFnZ0kcfzqn8YcCmjsiWvprMjuYZo+KW9Efrgk0Fwf8
-# 9JRVmYixN4sUFVtWzOrQYufZrThGTRbFM6WBSj0NEWKGpzj0AcSQ+auDOOcndp7Y
-# NUU=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMzNzE1WjAv
+# BgkqhkiG9w0BCQQxIgQgnw2CgQWIopMJZGHOPVU8j2r8bwOFFOC7uWb3dehdnhIw
+# DQYJKoZIhvcNAQEBBQAEggIAZzyarqhXVKAIyYBY+FOFF6t70r6dG5jj/RTfPoTh
+# JAfTRmBhD95GblsK27NjrxBt0JZJy59AvHnB5Q3weVvUNaFO20IF7wrKmGeFORxI
+# cg1yTa/GYU2HZ4wHst/lTwHivDC4UnGrHjfnjG2+/ge4EzzHDMVwYSk9JHG6EX3I
+# O+4mVHw13Z3t/eIWXK5C/tqbp0UTb9BZpkovLfDqF9lTscv+Bjj1AWkGlVPfLycK
+# UIjR3/xNDASvPtSePcJw0t5UhmuieOeIOdu0t8hWMgWy1mbo/tGmwaQ3i48DA5j1
+# WCp0kxPAHn+yKd3iyWiRrD4Y7IIhNVEHwJc/mUVyFwhJmghUzi6FKkX7zTLjJ2cP
+# fr3eg+2H/YpFHqOGOSKuDtO0qhYOhykITXWibsqvlHtdMVLpBPLH4TJbE/dDfzgl
+# nxgO62aoRDXkcdf1+EPjKXa3NT5JErlZaPsfgfboKdEEitR/gWnauUvYgrqq4or4
+# VBAoZT5iwwlA9PFEPGGmGmBBLRTF+p281IzWM95YJmLM9g3iB/p/YRDqS/T0Z957
+# Poz5lBedYbAmCcQSunc4fu5N1YAfUCOfO8r85j7hMUJEvn9Tbn4h9g8+Fb4YKblv
+# EuhYSSIewVVGWHF9hqNvrtaSWGWCSUXGAY7FdF3LGbkH5P+QVaMTpi/ip6jlGEDV
+# 4Ok=
 # SIG # End signature block
