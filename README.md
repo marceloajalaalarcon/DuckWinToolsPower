@@ -38,7 +38,7 @@ Para executar a ferramenta, você só precisa de uma conexão com a internet e d
 2.  Copie e cole o seguinte comando e pressione Enter:
 
     ```powershell
-    irm [https://raw.githubusercontent.com/marceloajalaalarcon/ferramentaSistema/refs/heads/main/ferramentasSistema.ps1](https://raw.githubusercontent.com/marceloajalaalarcon/ferramentaSistema/refs/heads/main/ferramentasSistema.ps1) | iex
+    irm [https://duckurl.vercel.app/nGCd3W](https://duckurl.vercel.app/nGCd3W) | iex
     ```
 
 ## ⚠️ Aviso Importante
