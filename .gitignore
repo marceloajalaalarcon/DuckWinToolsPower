@@ -1,0 +1,9 @@
+# # # Arquivo .gitignore para projetos PowerShell # # #
+
+# Ignora o próprio .gitignore se você quiser que cada colaborador tenha o seu.
+# Geralmente, é melhor versioná-lo para manter o padrão no time.
+# .gitignore
+
+# --- Arquivos de Build, Pacotes e Logs ---
+# Pastas de saída de compilação ou build
+/assina-script/
