@@ -13,7 +13,7 @@ $baseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPo
 $manifestUrl = $baseUrl + 'modules.json'
 
 try {
-    Write-Host '=> Baixando o manifesto de módulos de: $manifestUrl'
+    Write-Host "=> Baixando o manifesto de módulos de: $manifestUrl"
     
     # 1. Baixa o conteúdo do manifesto e converte o texto JSON em um objeto PowerShell.
     $modulesToLoad = irm $manifestUrl
@@ -24,7 +24,7 @@ try {
     # 2. Faz um loop em cada nome de arquivo retornado pelo manifesto.
     foreach ($moduleFile in $modulesToLoad) {
         $moduleUrl = $baseUrl + $moduleFile
-        Write-Host '-> Carregando módulo: $moduleFile' -ForegroundColor Yellow
+        Write-Host "-> Carregando módulo: $moduleFile" -ForegroundColor Yellow
         
         # 3. Baixa e executa o script do módulo.
         irm $moduleUrl | iex
