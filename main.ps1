@@ -40,6 +40,43 @@ try {
     Read-Host 'Pressione ENTER para sair.'
     exit
 }
+
+# ======================================================================================================================
+#  >>>>>>>>> INÍCIO DA SEÇÃO ADICIONADA <<<<<<<<<
+# ======================================================================================================================
+
+#region Lógica Principal de Execução
+
+# Após carregar todos os módulos, o script entra no loop principal do menu interativo.
+do {
+    # A função Mostrar-Menu (que foi carregada de um dos seus módulos) exibe as opções.
+    Mostrar-Menu
+    $opcao = Read-Host "Escolha uma opção"
+
+    # O switch direciona para a função correta com base na escolha do usuário.
+    switch ($opcao) {
+        "0" { 
+            Write-Host "Saindo da ferramenta. Até mais!" -ForegroundColor Green
+            exit 
+        }
+        "1" { Executar-SFC }
+        "2" { Executar-DISM }
+        "3" { Executar-CHKDSK }
+        "4" { Executar-Limpeza }
+        "5" { Verificar-SMART }
+        "6" { Network-Rede } # Assumindo que o nome da função do menu de rede seja este
+        "7" { Reiniciar-WU }
+        "8" { Agendar-Tarefa }
+        "9" { Limpar-FilaImpressao }
+        default {
+            Write-Log "`n❗ Opção inválida. Por favor, tente novamente." -ForegroundColor Red
+            Start-Sleep -Seconds 2
+        }
+    }
+} while ($true) # O loop continua indefinidamente até que a opção "0" chame 'exit'.
+
+#endregion
+
 #endregion
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
