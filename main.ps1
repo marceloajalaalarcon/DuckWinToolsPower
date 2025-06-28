@@ -6,8 +6,8 @@
 Write-Host 'Iniciando carregamento dinâmico de módulos...' -ForegroundColor Cyan
 
 # URL base para a pasta de módulos no seu GitHub.
-# ❗ IMPORTANTE: Verifique se este é o URL correto do seu repositório!
-$baseUrl = 'https://github.com/marceloajalaalarcon/DuckWinToolsPower/tree/main/'
+# ❗ IMPORTANTE: Verifique se este é o URL correto do seu repositório! 
+$baseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/modules.json'
 
 # URL completo para o arquivo de manifesto.
 $manifestUrl = $baseUrl + 'modules.json'
@@ -44,8 +44,8 @@ try {
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUhOXMbCWILUFRykJyupJu9Zg4
-# jPCgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUOQeCjeV5vnkseotTQe5WradG
+# 0c6gghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -166,28 +166,28 @@ try {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFGLIRHT+T1P65i9Fxo0p1/OE24gGMA0GCSqGSIb3DQEBAQUABIIBADZP
-# 22LiSBlXunALxXOhBm9Umc0L/GxAxlii54k/0yGqSzyvcQGb00SnELGg3aRZS2Cq
-# p+ywUZVdBbGbnLkji132GqlQeVTU0hk7iMQJwa7a5DPC9swX+6agzbiW+kY6DVzK
-# fOrLZOEU4xcUkYn9ekzEmvEjZ8SXgtff+bAUFuwU/wYpZt4kJ5fn7cf4cVyWty2N
-# GlouMzOkiYi3yuviK3eCK2ckyKOO+bZd/CQ5Nt+9HC9jBHAEDoudJAiZXyJMqpsp
-# U6mxMmFAij0FBqL9zS7H6yW/Xfuwrr/cpK07dWvDuh5mlgCDvxoFhCliq19RItxO
-# /15MLHcJ7JiDi6/ppwuhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFK2N9PRnq3vzflIrVzA7GoX18Vc6MA0GCSqGSIb3DQEBAQUABIIBAHzE
+# vofVXdEODDunFcLVtixAZMWPMWomISndq0O1REB3SgjjGF4sq8pKsdJ4gEq+GImq
+# jxqf5/gqo1viYBAiBlWindppNNKQ7vqbcesbE88b0aQYLFzXflLGpLFMYcVBbU2j
+# cE7XIVcvEvu+Cmo8A02JnJQVsld4yN2VNXRIFhvh7GHd3vSu/0Jk6iFvv3f2tlH+
+# QxqJGrW4mJ/vZblXE4/PJUqNkekkwTKdRvSDs2tFYn5t7GXgEcI+vnrXkpgpdQrT
+# kylLnCcXVkWIzAU0LUgbFt1Q5bxWfmygBK8N6pyTvkceAP5d5QVAv4XKA2dE013y
+# EUJ4p6S/exggpuXVbz2hggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMyNDQ3WjAv
-# BgkqhkiG9w0BCQQxIgQgZpI061o1Mdx5QY3L/Z50hVJA2LGwmtfVyk/Ky9hYYxkw
-# DQYJKoZIhvcNAQEBBQAEggIAqGv7P+Kme1fZnEKdg4cRgu674dKHknWI66QZs+pD
-# ls8O/cTHEdktxu3jjZCn00TloAhbjf8wJXtfM0RaCAgkCyitTGZBDUNbwigabLTR
-# cAgb3Wkf1c0HYMoEkuXP4B5vsIcwOZY1Iz9uC4T7M2KUSZL7jehniZohLd4Pms1L
-# vNVnINuxgzG7amP8pTsrCF3b1ZEZpZupc0EKAj8B+puDrKF779UnThv85ZVBadis
-# WWRPTLSNCXt8NMpTsky/uPSm1u9fU4L0UCohh6CxoCkLpSV/wwUqpF6RRgsfAg6Z
-# USPunA30fNJBZ4v+3b/9z7xY+ukh1U6IvTUe0pAXTH1kBS/PY3tGyjUGOiHghYrf
-# PxWrKqcdpDapgSSDuH3bdk2d8uuXmlmKGTKj1VA3bf+KsDk3sczaWEzbz+hCS5n0
-# vd3yrASOs08JXUjuTiKlUs2OmluWeGec9eLrlxs3jKU63b9USH4kCDzykh2MqZyK
-# 5nX6hXe00Ayac3EoMkXAylpNklcSafk6pj4kokp86B1KsKARB2T/jObnONDRkHfa
-# 4oKDsZX7vYhYJC60QZD4/lpGynhfvTkowAzCVcopxmxYUxXkWysi908JK4CoWRWr
-# sxpYhQRqKfWeGJ3PH65FGX7Qsl4ukhvF3OOIYLsSfUiSO+C8q7bdGmghJDxJ9P+R
-# 3+c=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjMyODI4WjAv
+# BgkqhkiG9w0BCQQxIgQg9MR7tXvz87dOS1IwDDm2a9VDbADtEUK6eJYHI8jVJ2sw
+# DQYJKoZIhvcNAQEBBQAEggIAr2Fb1LbjmpLckzai6fGVwgty/ixN/Ptwz1/M0ph5
+# KpIrv9uYRfNd+g6h27jYQt+2we2Z72YT8VFwKn24lxMhZu0djBzeHyNhe/S0yNoK
+# RNiJcd3HS6dOsFLL2bULFVUIdqCRWSmkRbF8u3g7uXmNuC3Q+q/EiO8DCJIg6+s6
+# mCYTRzkgpTuVnARmhSYzBSXUnyBLfcplDRP7Tn56gLON00ssoQF2qvaFrKU9TAIE
+# PYO8/Y9hWdbi7Kf+fr2rlqRoZeRYpxgLXAVihkWCNB+8gYDvJ8Wj5qHF4kmmKLtk
+# Ir1j5i6KfbqRhFElIBmvs6ksVMUHKcDYD9ESCpx590GsKFIdT8PHpmVun4y82893
+# jnbaWZRimWml+B9UZq+UeVSxfEenXHMR2n2WtpKcvU9kD8CCMJ7/+REsy5/aSilY
+# Kz+mSjj06qgzxpcLblt2HnGFNW1yQqM5iC9NfGBrn/74NrEpLx6fvGOjNl5hEUbW
+# P77R4kuf9Vm/Pu4I6mInaPrePTYDDwXn4jSYe6mgYb2DwEA2AOdLdKGEJWA50gCn
+# tS3QDuIuFCCxswa4OPJWiG3g5VujBr3v7wLR5R11sTzqgm0CY+vnZ6pqI7ywmEOD
+# M3knLH7TJ3htKj1EPYflRujNrE6kYmW0T2UrWd6Q5wk0U4oe/eOsByqXHogXCGOn
+# nrk=
 # SIG # End signature block
