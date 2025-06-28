@@ -7,7 +7,7 @@ Write-Host 'Iniciando carregamento dinâmico de módulos...' -ForegroundColor Cy
 
 # URL base para a pasta de módulos no seu GitHub.
 # ❗ IMPORTANTE: Verifique se este é o URL correto do seu repositório!
-$baseUrl = ''
+$baseUrl = 'https://github.com/marceloajalaalarcon/DuckWinToolsPower/tree/main/modules'
 
 # URL completo para o arquivo de manifesto.
 $manifestUrl = $baseUrl + 'modules.json'
