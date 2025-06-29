@@ -2,11 +2,11 @@
 # Descrição: Funções de verificação e reparo do sistema (SFC, DISM).
 
 function ExecutarSFC {
+    Clear-Host
     Write-Log "Iniciando verificação SFC (Verificador de Arquivos do Sistema)..."
     Write-Log "Isso pode demorar vários minutos. Por favor, aguarde." -ForegroundColor Cyan
     
-    $logPath = "$env:windir\Logs\CBS\CBS.log"
-    Start-Process sfc -ArgumentList "/scannow" -Wait -Verb RunAs
+    sfc /scannow
     
     $exitCode = $LASTEXITCODE
     if ($exitCode -eq 0) {
@@ -18,11 +18,11 @@ function ExecutarSFC {
 }
 
 function ExecutarDISM {
+    Clear-Host
     Write-Log "Iniciando reparo da imagem do sistema (DISM)..."
     Write-Log "Este processo pode ser demorado e parecer 'travado'. Tenha paciência." -ForegroundColor Cyan
     
-    $dismArgs = "/Online /Cleanup-Image /RestoreHealth"
-    Start-Process DISM.exe -ArgumentList $dismArgs -Wait -Verb RunAs
+    DISM /Online /Cleanup-Image /RestoreHealth
     
     $exitCode = $LASTEXITCODE
     if ($exitCode -eq 0) {

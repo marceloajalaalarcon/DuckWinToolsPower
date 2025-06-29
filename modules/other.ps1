@@ -3,6 +3,7 @@
 
 # Função para fazer agendar tarefa de limpeza do temp diaria e limpa fila da impressora
 function AgendarTarefa {
+    Clear-Host
     Write-Log "Agendador de Tarefas de Limpeza Automática"
     Write-Host "[1] Diariamente"
     Write-Host "[2] Semanalmente (Domingo)"
@@ -39,6 +40,7 @@ function AgendarTarefa {
 }
 
 function Limpar-FilaImpressao {
+    Clear-Host
     Write-Log "Tentando limpar a fila de impressão..." -ForegroundColor Yellow
     
     try {
