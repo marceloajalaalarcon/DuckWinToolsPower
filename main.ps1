@@ -1,10 +1,10 @@
 #region Script Configuration
-# ======================================================================================================================
+# ================================================================================
 # 🔧 Ferramenta de Manutenção do Sistema - DuckDev
 # Descrição: Script para realizar tarefas comuns de manutenção e reparo do Windows.
 # Autor: Marcelo Ajala Alarcon
 # Versão: 3.0 (Final Híbrida)
-# ======================================================================================================================
+# ================================================================================
 
 [CmdletBinding()]
 param (
@@ -13,40 +13,10 @@ param (
 #endregion
 
 #region Carregamento Híbrido (Local ou GitHub)
-# ======================================================================================================================
-# Detecta se o script está rodando localmente ou remotamente e carrega os módulos de acordo.
-# ======================================================================================================================
+# ==============================================================================
+#  Carrega os módulos de acordo.
+# ==============================================================================
 
-if ($PSScriptRoot) { # MODO LOCAL
-    Write-Host "✅ Detectado modo de execução local." -ForegroundColor Green
-    try {
-        $localModulesPath = Join-Path $PSScriptRoot "modules"
-        $helperModulePath = Join-Path $localModulesPath "helpers.ps1"
-
-        if (Test-Path $helperModulePath) {
-            Write-Host "   -> Carregando módulo essencial: helpers.ps1" -ForegroundColor Yellow
-            . $helperModulePath
-        } else {
-            throw "Arquivo de módulo essencial 'helpers.ps1' não encontrado!"
-        }
-
-        $otherModules = Get-ChildItem -Path $localModulesPath -Filter "*.ps1" -Exclude "helpers.ps1"
-        foreach ($module in $otherModules) {
-            Write-Host "   -> Carregando módulo: $($module.Name)" -ForegroundColor Yellow
-            . $module.FullName
-        }
-        
-        Write-Host "✔️ Módulos locais carregados com sucesso!" -ForegroundColor Green
-    } 
-    catch {
-        Write-Host "❌ Falha ao carregar módulos locais." -ForegroundColor Red
-        Write-Host "Verifique se a pasta 'modules' e todos os arquivos existem e estão corretos."
-        Write-Host "Erro: $($_.Exception.Message)"
-        Read-Host "Pressione ENTER para sair."
-        exit
-    }
-    
-} else { # MODO REMOTO (GITHUB)
     Write-Host "✅ Detectado modo de execução remoto (GitHub) com verificação de assinatura." -ForegroundColor Cyan
     $githubBaseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/'
     $manifestUrl = $githubBaseUrl + "modules.json"
@@ -89,7 +59,6 @@ if ($PSScriptRoot) { # MODO LOCAL
         Read-Host "Pressione ENTER para sair."
         exit
     }
-}
 Start-Sleep -Seconds 1
 #endregion
 
@@ -253,8 +222,8 @@ do {
 # SIG # Begin signature block
 # MIIbpgYJKoZIhvcNAQcCoIIblzCCG5MCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUCbvfupqptRjmO/vtXATi2x+3
-# jkCgghYXMIIDEDCCAfigAwIBAgIQXhD6PU/Nf7hCcH1wB8ecAjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU4ud6kt3wMt0sczGUwopwkI7z
+# P5qgghYXMIIDEDCCAfigAwIBAgIQXhD6PU/Nf7hCcH1wB8ecAjANBgkqhkiG9w0B
 # AQsFADAgMR4wHAYDVQQDDBVEdWNrRGV2LVRvb2xzLUNlcnQtVjMwHhcNMjUwNjI5
 # MDMxNDIzWhcNMjYwNjI5MDMzNDIzWjAgMR4wHAYDVQQDDBVEdWNrRGV2LVRvb2xz
 # LUNlcnQtVjMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2Zvk6iajp
@@ -375,28 +344,28 @@ do {
 # +TCCBPUCAQEwNDAgMR4wHAYDVQQDDBVEdWNrRGV2LVRvb2xzLUNlcnQtVjMCEF4Q
 # +j1PzX+4QnB9cAfHnAIwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFFW3mvA2nsip9fjLcfCNCTKR
-# InADMA0GCSqGSIb3DQEBAQUABIIBABsAWH6JmUBUyPPfs1LtZJKrJB90PlbsQzYj
-# FAWntt9akGab3FTziTvNvblm36wUYMw5W4k6fc206vUBmhn7Ii92rwPmTn4vIYJR
-# D9Jqb+lVJmw//Oe3BHyu3r2+FQMihF6sYlaG27gQnE2zw32JctnvvV0AI1SdsbnN
-# ep+cVghNod2ClekhR3KYBwwv1TS7FZpsE3Y9d6677Ep3WHDRlDzjB9fIkeku7STh
-# 4xcEP3iWJBnvkUjvcUnVE5UxpN5IrtteiaXo+F0COw/ZXDkuQr0DS4zxnBK1lRBM
-# JoeImToABt8EIzDMcrm+4DeXJvAYhm5KrG9EfBl5OakDkxdGLRehggMgMIIDHAYJ
+# MAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFELXpCiAfi/yxi3nqLShdFPx
+# 93GeMA0GCSqGSIb3DQEBAQUABIIBAD0pDHEMk2J76ZMOEYoRQkN2ozVzBZr2yr1A
+# gcx/hJasebVREK6ZYHgJqrNI5C1eq7/spv9Er6vMS0l+v0uEOmJg6dY88PrhYkZH
+# sagYn08TFy7XYIG0Yf7zkMudVGe5VnU8vyv3vLzZ33rNGCfvQh8di60lbIkqA3Yn
+# 3/LgOpkQeZtCe/ySgf3XP2i86/gmvEDOykbopwl/dghuzKPEL71oLjliIMcYGjrc
+# vC+bYQQmq/EV1gIsAHxg1aqA6MZN2MiikbhGTIOeI3geZQwc0wWRazTsShU6JSYc
+# MFI+giB8QSC2BoUErTPaBjBwfuT3tPxCmiA4Jf06QE51Igjhch+hggMgMIIDHAYJ
 # KoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBjMQswCQYDVQQGEwJVUzEXMBUGA1UEChMO
 # RGlnaUNlcnQsIEluYy4xOzA5BgNVBAMTMkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNB
 # NDA5NiBTSEEyNTYgVGltZVN0YW1waW5nIENBAhALrma8Wrp/lYfG+ekE4zMEMA0G
 # CWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG
-# 9w0BCQUxDxcNMjUwNjI5MDQ0ODQzWjAvBgkqhkiG9w0BCQQxIgQgttcIW9K98rLD
-# VcfRXrcwVibpjPxJosTAiMpAJ0e+5kkwDQYJKoZIhvcNAQEBBQAEggIAeUDFBo4Y
-# P2hPsTLQoFcWrhBap+JjtG+1/lB8rNxm6b2ZcaIDJDirP1H8Revl+aFYt7d5PJPX
-# hJqiXfyWs2IN7ajpmVdZICJAhL0S7Z63VSn1sqDGDDoBSNju3BmIEjy83FO0xnBs
-# clAZSQJUv+2ibkc+Ne8J5dtmid/eJW0xjufOH+1rKMXYGhU3yxA+9BClnEiOXnzQ
-# 5No4G1C/Qr2V5g33aThnVrqQCh0jrhODMPaIPa2aFT0HLxHnPj6TLXSzM0+7ofmn
-# rjYOE4z2vhjH9H9Hrouj4vJfwKzqtvefSMz2mXtQUOvLQlozZtgDimCflr2Gr+3f
-# YryBzbDYbPv8MKPyfFHLyzVGcFTjW1tQ0fg4onNPSd4cOLtWDFEMTln/+8SXjxgy
-# +vYFFs8vuJngWa79FMIKb3l41zOb+WL4Wirf11DVnBOcWlDNT3vEePpSLdC6Tg9U
-# 0C/fSSw74/gf9sinaV3JbTJ2WoYqoa6IJcftclU5Q9yL7CH4IKmF2+SPFPawMN2U
-# vDmlmFz40X3+vUrsZOyQZENq6nM8IZ6KOVFwBiEGqSYQH9iboqpRhTJvFrEhbysS
-# fS4zftRLiyafwt/rDb3936WXLw4hB0q6Pq887F6SK5bFEZf+MfjjlA5XMmV7x6TL
-# RSeXyMlEjSWNIiBzOGg4WkUmwZ8FXXP5fnc=
+# 9w0BCQUxDxcNMjUwNjI5MDUwNTEyWjAvBgkqhkiG9w0BCQQxIgQgBNasr6uzE0oS
+# Sd2liPRGaoBXIatRqvfOAwyFPYSzsTkwDQYJKoZIhvcNAQEBBQAEggIAQDL6BdY+
+# TrlEIwFKHM2ZDrSewHsKy/JW3A7/7DZFSbDyQ28pohspqUENQwCLwWYXCcCuX7yA
+# q14tIlQevgqeaF4JLqsrk897dyx+B5ub6233MDO9Nej+6vaC475P75KX7aC0QCev
+# xR5YXFqwbbcaLKxvfUju4sSTMun53RWwLIf40QDBEDiPBbeWdmf3tDvUnRUKBwxW
+# Fa8qJ9XvnAvOwVxZ98B1/WKPB8E9TExmIgQ168gAddqZdM+93RaG3i/sgKllMMV9
+# YqmLWD391Is3sYzhI2BLXQlgdncY79QB6MPD+I/IuJAo/mZy40BmBmYQl3VXq3gK
+# HB0HhGAy5gyKEndTSy3CwGXbwtT8titQyaY3ju42kEPUKcAaEhPhW1p+6CgnVd0u
+# KN2l00Tfqq6Gp6rzGiA4t5j9INQoUjUpsQvympUk/p6zNezqFieNEPF1WnMO0PM6
+# b075KXOI7JuA15ibRaXkMZ13ZtNVddo/2ii+f6Fbsl5NXoMSjyK1dEuXSy7oBlFQ
+# N4r8pyFtJG5TL9bttKudVF9xnInEusoNchXIj3tt2IJN6+6+54iKUSZ1S/5kC4VB
+# hJwQi6fpF5E770WY1mxa+bQkULAYFPfWAZhSggsCWTVXMk0cImO3oflrFRnzJbLA
+# aOAsLr1XkQdSlSmQs1VLwpCMEWUrNJ7hZ5w=
 # SIG # End signature block
