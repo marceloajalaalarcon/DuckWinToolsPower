@@ -58,8 +58,8 @@ if ($PSScriptRoot) { # MODO LOCAL
         Write-Host "=> Módulos a serem verificados e carregados: $($modulesToLoad -join ', ')" -ForegroundColor Green
 
         foreach ($moduleFile in $modulesToLoad) {
-            $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1" # Cria um nome de arquivo temporário único
             $moduleUrl = $githubBaseUrl + $moduleFile
+            $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1" # Cria um nome de arquivo temporário único
             
             try {
                 Write-Host "   -> Baixando '$moduleFile' para verificação..."
@@ -386,17 +386,17 @@ do {
 # RGlnaUNlcnQsIEluYy4xOzA5BgNVBAMTMkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNB
 # NDA5NiBTSEEyNTYgVGltZVN0YW1waW5nIENBAhALrma8Wrp/lYfG+ekE4zMEMA0G
 # CWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG
-# 9w0BCQUxDxcNMjUwNjI5MDUwMjM1WjAvBgkqhkiG9w0BCQQxIgQgttcIW9K98rLD
-# VcfRXrcwVibpjPxJosTAiMpAJ0e+5kkwDQYJKoZIhvcNAQEBBQAEggIAR2aXw9Qz
-# 26ziB9yPbZKKINJHIpLfsSTs8AfexnjkRerfir0Vluklz6c4VvpwTH1DP/iJDSiU
-# rxenBA4Ob0UGefrsP21aJ2WDauPFuSwubFysS+MEmQ5C5I6FQRrB8Bm+3Z6pd7BD
-# GCpvczTLIYDe+Yy5R/kTSh3pnmzYGpHAGSGdhclrzQp3fMuepkh/pHsnVFhXGsOC
-# 9e1WljNFfDcPNA3U+KyxTMr6+MqwnZKtOkOT4xrUDuMkhzMqAm0AY4apmp7or9SS
-# e1j1VisUgxSymwftwBDB5XG8609yW7lcitVTzSqOaLMxPF/SftzIOXrA1ahDjsPX
-# GPFzXxsvL9ZzWBpxRFGjnhAqELSgVplS3QJEbHZJ8g8p6/LVR0BWNww9920+3B64
-# 3yMIAsB8E83P7ZIWNn4d/NuD6AJc2ztZ241WGJXVBBtOpcFoQzGuAoRHF6uWY9Ml
-# Vpy8Xr49aYLBQZTng5aXsxLLkHB4sRA68n+oYjzk4dQ7Z6aaco/X0MyWhdATXo8N
-# dCAm8ZqVQhLTmaHPp8zde4gNnTwDMoqtfmjoOFa1H693QhJXZRXpfRBTBEnxipUP
-# QSlT3jYllEm9GP0XPIqyKiF5U/YZtkOnViXB6SZVmBTisi6CAbuMJbgij1/PB8AM
-# 1eP878yFlgL6zqbEH5WDeevgkIkqDADSpSM=
+# 9w0BCQUxDxcNMjUwNjI5MDQ0ODQzWjAvBgkqhkiG9w0BCQQxIgQgttcIW9K98rLD
+# VcfRXrcwVibpjPxJosTAiMpAJ0e+5kkwDQYJKoZIhvcNAQEBBQAEggIAeUDFBo4Y
+# P2hPsTLQoFcWrhBap+JjtG+1/lB8rNxm6b2ZcaIDJDirP1H8Revl+aFYt7d5PJPX
+# hJqiXfyWs2IN7ajpmVdZICJAhL0S7Z63VSn1sqDGDDoBSNju3BmIEjy83FO0xnBs
+# clAZSQJUv+2ibkc+Ne8J5dtmid/eJW0xjufOH+1rKMXYGhU3yxA+9BClnEiOXnzQ
+# 5No4G1C/Qr2V5g33aThnVrqQCh0jrhODMPaIPa2aFT0HLxHnPj6TLXSzM0+7ofmn
+# rjYOE4z2vhjH9H9Hrouj4vJfwKzqtvefSMz2mXtQUOvLQlozZtgDimCflr2Gr+3f
+# YryBzbDYbPv8MKPyfFHLyzVGcFTjW1tQ0fg4onNPSd4cOLtWDFEMTln/+8SXjxgy
+# +vYFFs8vuJngWa79FMIKb3l41zOb+WL4Wirf11DVnBOcWlDNT3vEePpSLdC6Tg9U
+# 0C/fSSw74/gf9sinaV3JbTJ2WoYqoa6IJcftclU5Q9yL7CH4IKmF2+SPFPawMN2U
+# vDmlmFz40X3+vUrsZOyQZENq6nM8IZ6KOVFwBiEGqSYQH9iboqpRhTJvFrEhbysS
+# fS4zftRLiyafwt/rDb3936WXLw4hB0q6Pq887F6SK5bFEZf+MfjjlA5XMmV7x6TL
+# RSeXyMlEjSWNIiBzOGg4WkUmwZ8FXXP5fnc=
 # SIG # End signature block
