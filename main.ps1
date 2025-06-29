@@ -220,7 +220,7 @@ do {
         "3" { ExecutarCHKDSK }
         "4" { ExecutarLimpeza }
         "5" { VerificarSMART }
-        "6" { NetworkRedeDebug }
+        "6" { NetworkRede }
         "7" { ReiniciarWU }
         "8" { AgendarTarefa }
         "9" { Limpar-FilaImpressao }
