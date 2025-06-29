@@ -8,7 +8,7 @@ function Write-Log {
         [string]$Message,
 
         [Parameter(Mandatory = $false)]
-        [string]$ForegroundColor = 'White'
+        [string]$ForegroundColor = "White"
     )
     # Exibe a mensagem no console.
     Write-Host $Message -ForegroundColor $ForegroundColor
