@@ -1,7 +1,7 @@
 # Arquivo: modules/system.ps1
 # Descrição: Funções de verificação e reparo do sistema (SFC, DISM).
 
-function Executar-SFC {
+function ExecutarSFC {
     Clear-Host
     Write-Log '🔍 Executando verificação de arquivos do sistema (SFC)...' -ForegroundColor Yellow
     Write-Log 'Este processo pode demorar alguns minutos. Por favor, aguarde.'
@@ -23,7 +23,7 @@ function Executar-SFC {
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 
-function Executar-DISM {
+function ExecutarDISM {
     Clear-Host
     Write-Log '🛠️  Executando reparo da imagem do sistema (DISM)...' -ForegroundColor Yellow
     Write-Log 'Este processo pode demorar bastante e requer conexão com a internet. Por favor, aguarde.'

@@ -2,7 +2,7 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para fazer agendar tarefa de limpeza do temp diaria e limpa fila da impressora
-function Agendar-Tarefa {
+function AgendarTarefa {
     Clear-Host
     Write-Host '📅 MENU DE AGENDAMENTO DE TAREFAS' -ForegroundColor Cyan
     Write-Host "`n[1] Agendar limpeza diária do TEMP às 04:00"
@@ -50,7 +50,7 @@ function Agendar-Tarefa {
     }
 }
 
-function Limpar-FilaImpressao {
+function LimparFilaImpressao {
     [CmdletBinding()]
     param(
         [string] $PrinterName  # opcional, se quiser focar em só uma impressora

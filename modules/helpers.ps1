@@ -15,7 +15,7 @@ function Write-Log {
 }
 
 # Função para verificar a presença de antivírus de terceiros.
-function Verificar-Antivirus {
+function VerificarAntivirus {
     try {
         # Procura por produtos antivírus que NÃO sejam o Windows Defender.
         $avList = Get-CimInstance -Namespace root\SecurityCenter2 -Class AntiVirusProduct | Where-Object { $_.displayName -notlike '*windows*' } | Select-Object -ExpandProperty displayName

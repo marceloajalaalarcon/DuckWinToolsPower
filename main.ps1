@@ -168,7 +168,7 @@ Verificar-Antivirus
 
 #region Lógica Principal de Execução
 
-function Mostrar-Menu {
+function MostrarMenu {
     Clear-Host
     Write-Host "============================================" -ForegroundColor Cyan
     Write-Host "    🔧 FERRAMENTA DE MANUTENÇÃO DO SISTEMA" -ForegroundColor White
@@ -202,19 +202,19 @@ if ($ScheduledClean.IsPresent) {
 }
 
 do {
-    Mostrar-Menu
+    MostrarMenu
     $opcao = Read-Host "Escolha uma opção"
 
     switch ($opcao) {
         "0" { exit }
-        "1" { Executar-SFC }
-        "2" { Executar-DISM }
-        "3" { Executar-CHKDSK }
-        "4" { Executar-Limpeza }
-        "5" { Verificar-SMART }
-        "6" { Diagnostico-Rede }
-        "7" { Reiniciar-WU }
-        "8" { Agendar-Tarefa }
+        "1" { ExecutarSFC }
+        "2" { ExecutarDISM }
+        "3" { ExecutarCHKDSK }
+        "4" { ExecutarLimpeza }
+        "5" { VerificarSMART }
+        "6" { NetworkRedeDebug }
+        "7" { ReiniciarWU }
+        "8" { AgendarTarefa }
         "9" { Limpar-FilaImpressao }
         default { Write-Log "`n❗ Opção inválida." -ForegroundColor Red; Start-Sleep -Seconds 2 }
     }

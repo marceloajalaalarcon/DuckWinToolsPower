@@ -2,7 +2,7 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para fazer limpeza do ip, solicitar novo ip e limpa cache dns e reiniciar windows update
-function Network-Rede-Debug {
+function NetworkRedeDebug {
     param (
         [Parameter(Mandatory=$true)]
         [string]$Comando,
@@ -38,7 +38,7 @@ function Network-Rede-Debug {
     }
 }
 
-function Network-Rede {
+function NetworkRede {
     
     # O loop do-until garante que o menu seja exibido pelo menos uma vez
     # e continue aparecendo até que a escolha seja '0'.
@@ -102,7 +102,7 @@ function Network-Rede {
     } while ($escolhaREDE -ne '0')
 }
 
-function Reiniciar-WU {
+function ReiniciarWU {
     Clear-Host
     Write-Log '♻️  Redefinindo componentes do Windows Update...' -ForegroundColor Yellow
     

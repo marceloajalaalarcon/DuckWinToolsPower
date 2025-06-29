@@ -2,7 +2,7 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para executar o chkdsk, limpeza dos arquivos temp e verificação stmart do SSD/HD
-function Executar-CHKDSK {
+function ExecutarCHKDSK {
     Clear-Host
     Write-Log '💾 Agendando verificação de disco (CHKDSK)...' -ForegroundColor Yellow
     Write-Log 'O CHKDSK será executado na próxima vez que o computador for reiniciado.' -ForegroundColor Cyan
@@ -18,7 +18,7 @@ function Executar-CHKDSK {
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 
-function Executar-Limpeza {
+function ExecutarLimpeza {
     Clear-Host
     Write-Log '🧹 Limpando arquivos temporários...' -ForegroundColor Yellow
     
@@ -46,7 +46,7 @@ function Executar-Limpeza {
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 
-function Verificar-SMART {
+function VerificarSMART {
     Clear-Host
     Write-Log '🧪 Verificando status SMART dos discos...' -ForegroundColor Yellow
     try {
