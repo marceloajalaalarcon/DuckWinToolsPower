@@ -3,19 +3,17 @@
 
 function Executar-SFC {
     Clear-Host
-    Write-Log '🔍 Executando verificação de arquivos do sistema (SFC)...' -ForegroundColor Yellow
-    Write-Log 'Este processo pode demorar alguns minutos. Por favor, aguarde.'
-    Write-Log '------------------------------------------------------------'
+    Write-Log "🔍 Executando verificação de arquivos do sistema (SFC)..." -ForegroundColor Yellow
+    Write-Log "Este processo pode demorar alguns minutos. Por favor, aguarde."
+    Write-Log "------------------------------------------------------------"
     
-    # --- MUDANÇA AQUI ---
     # Executamos o sfc.exe diretamente para que a saída apareça na janela atual.
     sfc.exe /scannow
     
     # Capturamos o código de saída com a variável automática $LASTEXITCODE.
     $exitCode = $LASTEXITCODE
-    # --------------------
 
-    Write-Log '------------------------------------------------------------'
+    Write-Log "------------------------------------------------------------"
     if ($exitCode -eq 0) {
         Write-Log "`n✔️ Verificação SFC concluída com sucesso." -ForegroundColor Green
     } else {
