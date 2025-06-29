@@ -2,8 +2,6 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para fazer limpeza do ip, solicitar novo ip e limpa cache dns e reiniciar windows update
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-
 function NetworkRedeDebug {
     param (
         [Parameter(Mandatory=$true)]
