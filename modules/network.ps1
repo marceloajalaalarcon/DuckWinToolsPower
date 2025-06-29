@@ -2,7 +2,7 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para fazer limpeza do ip, solicitar novo ip e limpa cache dns e reiniciar windows update
-function NetworkRedeDebug {
+function RedeDebug {
     param (
         [Parameter(Mandatory=$true)]
         [string]$Comando,
@@ -38,7 +38,7 @@ function NetworkRedeDebug {
     }
 }
 
-function NetworkRede {
+function Rede {
     
     # O loop do-until garante que o menu seja exibido pelo menos uma vez
     # e continue aparecendo até que a escolha seja "0".
@@ -57,36 +57,36 @@ function NetworkRede {
         switch ($escolhaREDE) {
             "1" {
                 # Executa cada comando sem pausar
-                NetworkRedeDebug  -Comando "ipconfig /release" -MensagemProgresso "Liberando IP atual..." -MensagemSucesso "IP Liberado." -PausarAoFinal $false
-                NetworkRedeDebug  -Comando "ipconfig /renew" -MensagemProgresso "Renovando concessão de IP..." -MensagemSucesso "IP Renovado." -PausarAoFinal $false
-                NetworkRedeDebug  -Comando "ipconfig /flushdns" -MensagemProgresso "Limpando cache DNS..." -MensagemSucesso "Cache DNS limpo." -PausarAoFinal $false
+                RedeDebug  -Comando "ipconfig /release" -MensagemProgresso "Liberando IP atual..." -MensagemSucesso "IP Liberado." -PausarAoFinal $false
+                RedeDebug  -Comando "ipconfig /renew" -MensagemProgresso "Renovando concessão de IP..." -MensagemSucesso "IP Renovado." -PausarAoFinal $false
+                RedeDebug  -Comando "ipconfig /flushdns" -MensagemProgresso "Limpando cache DNS..." -MensagemSucesso "Cache DNS limpo." -PausarAoFinal $false
             
                 # Adiciona uma mensagem final e uma única pausa
                 Write-Host "`n✅ Feito!" -ForegroundColor Green
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             "2" {
-                NetworkRedeDebug -Comando "ipconfig /release" -MensagemProgresso "Liberando IP atual..." -MensagemSucesso "IP Liberado." -PausarAoFinal $false
-                NetworkRedeDebug -Comando "ipconfig /renew" -MensagemProgresso "Solicitando novo IP..." -MensagemSucesso "Reset de IP feito." -PausarAoFinal $false
+                RedeDebug -Comando "ipconfig /release" -MensagemProgresso "Liberando IP atual..." -MensagemSucesso "IP Liberado." -PausarAoFinal $false
+                RedeDebug -Comando "ipconfig /renew" -MensagemProgresso "Solicitando novo IP..." -MensagemSucesso "Reset de IP feito." -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
                 Write-Host "`n✅ Feito!" -ForegroundColor Green
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             "3" {
-                NetworkRedeDebug -Comando "ipconfig /flushdns" -MensagemProgresso "Limpando cache DNS..." -MensagemSucesso "Cache DNS limpo." -PausarAoFinal $false
+                RedeDebug -Comando "ipconfig /flushdns" -MensagemProgresso "Limpando cache DNS..." -MensagemSucesso "Cache DNS limpo." -PausarAoFinal $false
 
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             "4" {
-                NetworkRedeDebug -Comando "ipconfig /release" -MensagemProgresso "Desconectar IP..." -MensagemSucesso "IP atual liberado." -PausarAoFinal $false
+                RedeDebug -Comando "ipconfig /release" -MensagemProgresso "Desconectar IP..." -MensagemSucesso "IP atual liberado." -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             "5" {
-                NetworkRedeDebug -Comando "ipconfig /renew" -MensagemProgresso "Reconectar IP..." -MensagemSucesso "IP renovado." -PausarAoFinal $false
+                RedeDebug -Comando "ipconfig /renew" -MensagemProgresso "Reconectar IP..." -MensagemSucesso "IP renovado." -PausarAoFinal $false
             
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
@@ -102,7 +102,7 @@ function NetworkRede {
     } while ($escolhaREDE -ne "0")
 }
 
-function ReiniciarWU {
+function ReiniciarUpdate {
     Clear-Host
     Write-Log '♻️  Redefinindo componentes do Windows Update...' -ForegroundColor Yellow
     

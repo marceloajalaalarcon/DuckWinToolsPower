@@ -220,8 +220,8 @@ do {
         "3" { ExecutarCHKDSK }
         "4" { ExecutarLimpeza }
         "5" { VerificarSMART }
-        "6" { NetworkRede }
-        "7" { ReiniciarWU }
+        "6" { RedeDebug }
+        "7" { ReiniciarUpdate }
         "8" { AgendarTarefa }
         "9" { Limpar-FilaImpressao }
         default { Write-Log "`n❗ Opção inválida." -ForegroundColor Red; Start-Sleep -Seconds 2 }
