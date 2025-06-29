@@ -77,13 +77,13 @@ function Network-Rede {
                 Diagnostico-Rede-Debug -Comando "ipconfig /flushdns" -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
 
                 # Adiciona uma mensagem final e uma única pausa
-                Read-Host '`nPressione Enter para continuar...' | Out-Null
+                Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             '4' {
                 Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso 'Desconectar IP...' -MensagemSucesso 'IP atual liberado.' -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
-                Read-Host '`nPressione Enter para continuar...' | Out-Null
+                Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             '5' {
                 Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso 'Reconectar IP...' -MensagemSucesso 'IP renovado.' -PausarAoFinal $false
