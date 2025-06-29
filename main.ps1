@@ -177,7 +177,7 @@ Verificar-Antivirus
 #region Lógica Principal de Execução
 
 function MostrarMenu {
-    Clear-Host
+    # Clear-Host
     Write-Host "============================================" -ForegroundColor Cyan
     Write-Host "    🔧 FERRAMENTA DE MANUTENÇÃO DO SISTEMA" -ForegroundColor White
     Write-Host "============================================" -ForegroundColor Cyan
