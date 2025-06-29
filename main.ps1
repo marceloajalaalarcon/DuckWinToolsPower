@@ -171,7 +171,7 @@ $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 # Clear-Host
 
 # Chama a função que foi carregada do helpers.ps1
-Verificar-Antivirus
+VerificarAntivirus
 #endregion
 
 #region Lógica Principal de Execução
