@@ -2,46 +2,33 @@
 # Descrição: Funções de verificação e reparo do sistema (SFC, DISM).
 
 function ExecutarSFC {
-    Clear-Host
-    Write-Log '🔍 Executando verificação de arquivos do sistema (SFC)...' -ForegroundColor Yellow
-    Write-Log 'Este processo pode demorar alguns minutos. Por favor, aguarde.'
-    Write-Log '------------------------------------------------------------'
+    Write-Log "Iniciando verificação SFC (Verificador de Arquivos do Sistema)..."
+    Write-Log "Isso pode demorar vários minutos. Por favor, aguarde." -ForegroundColor Cyan
     
-    # Executamos o sfc.exe diretamente para que a saída apareça na janela atual.
-    sfc.exe /scannow
+    $logPath = "$env:windir\Logs\CBS\CBS.log"
+    Start-Process sfc -ArgumentList "/scannow" -Wait -Verb RunAs
     
-    # Capturamos o código de saída com a variável automática $LASTEXITCODE.
     $exitCode = $LASTEXITCODE
-
-    Write-Log "------------------------------------------------------------"
     if ($exitCode -eq 0) {
-        Write-Log "`n✔️ Verificação SFC concluída com sucesso." -ForegroundColor Green
+        Write-Log "✅ SFC: Nenhuma violação de integridade encontrada." -ForegroundColor Green
     } else {
-        Write-Log "`n❌ Ocorreu um erro durante a execução do SFC. Código de saída: $exitCode" -ForegroundColor Red
-        Write-Log 'Consulte o log em C:\Windows\Logs\CBS\CBS.log para mais detalhes.' -ForegroundColor Yellow
+        Write-Log "⚠️ SFC: Violações de integridade encontradas. Detalhes em $logPath" -ForegroundColor Yellow
     }
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 
 function ExecutarDISM {
-    Clear-Host
-    Write-Log '🛠️  Executando reparo da imagem do sistema (DISM)...' -ForegroundColor Yellow
-    Write-Log 'Este processo pode demorar bastante e requer conexão com a internet. Por favor, aguarde.'
-    Write-Log "Durante o uso do DISM, é normal que a porcentagem pare por um tempo em certos pontos.`nIsso não significa que travou — o processo ainda está em andamento.`nBasta aguardar a conclusão com paciência." -ForegroundColor Yellow
-    Write-Log '--------------------------------------------------------------------------------'
-
-    # Executamos o DISM.exe diretamente.
-    DISM.exe /Online /Cleanup-Image /RestoreHealth
+    Write-Log "Iniciando reparo da imagem do sistema (DISM)..."
+    Write-Log "Este processo pode ser demorado e parecer 'travado'. Tenha paciência." -ForegroundColor Cyan
     
-    # Capturamos o código de saída.
+    $dismArgs = "/Online /Cleanup-Image /RestoreHealth"
+    Start-Process DISM.exe -ArgumentList $dismArgs -Wait -Verb RunAs
+    
     $exitCode = $LASTEXITCODE
-
-    Write-Log '--------------------------------------------------------------------------------'
     if ($exitCode -eq 0) {
-        Write-Log "`n✔️ Reparo da imagem DISM concluído com sucesso." -ForegroundColor Green
+        Write-Log "✅ DISM: Operação de reparo concluída com sucesso." -ForegroundColor Green
     } else {
-        Write-Log "`n❌ Ocorreu um erro durante a execução do DISM. Código de saída: $exitCode" -ForegroundColor Red
-        Write-Log 'Consulte o log em C:\Windows\Logs\DISM\dism.log para mais detalhes.' -ForegroundColor Yellow
+        Write-Log "❌ DISM: Falha na operação de reparo. Verifique os logs." -ForegroundColor Red
     }
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
