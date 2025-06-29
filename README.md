@@ -40,9 +40,12 @@ Para executar a ferramenta, você só precisa de uma conexão com a internet e d
     ```powershell
     irm https://duckurl.vercel.app/nGCd3W | iex
     ```
+    ou o link direto:
+    ```powershell
+    irm https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/main.ps1 | iex
+    ```
 
 ## ⚠️ Aviso Importante
 
-- Foi usado um encurtador de link para referenciar melhor o codigo, caso queria o link direto desse repositorio é esse: 
-"https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/main.ps1"
+- Foi usado um encurtador de link para referenciar melhor, caso queria use o link direto.
 - Este software é fornecido "COMO ESTÁ". Embora utilize ferramentas nativas do Windows, operações de manutenção profundas sempre envolvem riscos. **É altamente recomendável fazer um backup de seus dados importantes antes de usar as opções de reparo.** O uso da ferramenta é de sua inteira responsabilidade.
