@@ -48,7 +48,7 @@ if ($PSScriptRoot) { # MODO LOCAL
     
 } else { # MODO REMOTO (GITHUB)
     Write-Host "✅ Detectado modo de execução remoto (GitHub)." -ForegroundColor Cyan
-    $githubBaseUrl = "https://raw.githubusercontent.com/marceloajalaalarcon/ferramentaSistema/main/modules/"
+    $githubBaseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/'
     $manifestUrl = $githubBaseUrl + "modules.json"
     
     try {
@@ -79,7 +79,7 @@ Start-Sleep -Seconds 1
 # 🚨 Verificação de Privilégios
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
     Write-Host "⏫ Permissões de administrador necessárias. Reabrindo o script..." -ForegroundColor Yellow
-    $commandToRerun = "irm https://raw.githubusercontent.com/marceloajalaalarcon/ferramentaSistema/refs/heads/main/main.ps1 | iex"
+    $commandToRerun = "irm h'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/main.ps1 | iex"
     $encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($commandToRerun))
     Start-Process powershell.exe -ArgumentList "-EncodedCommand $encodedCommand" -Verb RunAs
     exit
