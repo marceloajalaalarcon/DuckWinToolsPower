@@ -1,88 +1,242 @@
-#region Carregamento de Módulos Dinâmico
+#region Script Configuration
 # ======================================================================================================================
-# Esta seção carrega dinamicamente todas as funções listadas em um arquivo de manifesto (modules.json).
-# Isso torna a adição de novos módulos muito mais fácil.
+# 🔧 Ferramenta de Manutenção do Sistema - DuckDev
+# Descrição: Script para realizar tarefas comuns de manutenção e reparo do Windows.
+# Autor: Marcelo Ajala Alarcon
+# Versão: 3.0 (Final Híbrida)
 # ======================================================================================================================
-Write-Host 'Iniciando carregamento dinâmico de módulos...' -ForegroundColor Cyan
 
-# URL base para a pasta de módulos no seu GitHub.
-# ❗ IMPORTANTE: Verifique se este é o URL correto do seu repositório! 
-$baseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/'
+[CmdletBinding()]
+param (
+    [Switch]$ScheduledClean
+)
+#endregion
 
-# URL completo para o arquivo de manifesto.
-$manifestUrl = $baseUrl + 'modules.json'
+#region Carregamento Híbrido (Local ou GitHub)
+# ======================================================================================================================
+# Detecta se o script está rodando localmente ou remotamente e carrega os módulos de acordo.
+# ======================================================================================================================
 
-try {
-    Write-Host "=> Baixando o manifesto de módulos de: $manifestUrl"
-    
-    # 1. Baixa o conteúdo do manifesto e converte o texto JSON em um objeto PowerShell.
-    $modulesToLoad = irm $manifestUrl
+if ($PSScriptRoot) { # MODO LOCAL
+    Write-Host "✅ Detectado modo de execução local." -ForegroundColor Green
+    try {
+        $localModulesPath = Join-Path $PSScriptRoot "modules"
+        $helperModulePath = Join-Path $localModulesPath "helpers.ps1"
 
-    Write-Host '=> Manifesto lido com sucesso. Carregando os seguintes módulos:' -ForegroundColor Green
-    $modulesToLoad | ForEach-Object { Write-Host "   - $_" } # Lista os módulos que serão carregados
+        if (Test-Path $helperModulePath) {
+            Write-Host "   -> Carregando módulo essencial: helpers.ps1" -ForegroundColor Yellow
+            . $helperModulePath
+        } else {
+            throw "Arquivo de módulo essencial 'helpers.ps1' não encontrado!"
+        }
 
-    # 2. Faz um loop em cada nome de arquivo retornado pelo manifesto.
-    foreach ($moduleFile in $modulesToLoad) {
-        $moduleUrl = $baseUrl + $moduleFile
-        Write-Host "-> Carregando módulo: $moduleFile" -ForegroundColor Yellow
+        $otherModules = Get-ChildItem -Path $localModulesPath -Filter "*.ps1" -Exclude "helpers.ps1"
+        foreach ($module in $otherModules) {
+            Write-Host "   -> Carregando módulo: $($module.Name)" -ForegroundColor Yellow
+            . $module.FullName
+        }
         
-        # 3. Baixa e executa o script do módulo.
-        irm $moduleUrl | iex
+        Write-Host "✔️ Módulos locais carregados com sucesso!" -ForegroundColor Green
+
+    } catch {
+        Write-Host "❌ Falha ao carregar módulos locais." -ForegroundColor Red
+        Write-Host "Verifique se a pasta 'modules' e todos os arquivos existem e estão corretos."
+        Write-Host "Erro: $($_.Exception.Message)"
+        Read-Host "Pressione ENTER para sair."
+        exit
     }
     
-    Write-Host '`n✔️ Todos os módulos foram carregados com sucesso!' -ForegroundColor Green
-    Start-Sleep -Seconds 1
+} else { # MODO REMOTO (GITHUB)
+    Write-Host "✅ Detectado modo de execução remoto (GitHub)." -ForegroundColor Cyan
+    $githubBaseUrl = "https://raw.githubusercontent.com/marceloajalaalarcon/ferramentaSistema/main/modules/"
+    $manifestUrl = $githubBaseUrl + "modules.json"
+    
+    try {
+        Write-Host "=> Baixando o manifesto de: $manifestUrl"
+        $modulesToLoad = irm $manifestUrl | ConvertFrom-Json
+        
+        Write-Host "=> Carregando os seguintes módulos:" -ForegroundColor Green
+        $modulesToLoad | ForEach-Object { Write-Host "   - $_" }
 
-} catch {
-    Write-Host '❌ Falha crítica durante o carregamento dinâmico dos módulos.' -ForegroundColor Red
-    Write-Host 'Verifique sua conexão e se o arquivo "modules.json" existe e está acessível.'
-    Write-Host "Erro: $($_.Exception.Message)"
-    Read-Host 'Pressione ENTER para sair.'
+        foreach ($moduleFile in $modulesToLoad) {
+            $moduleUrl = $githubBaseUrl + $moduleFile
+            Write-Host "   -> Carregando módulo remoto: $moduleFile" -ForegroundColor Yellow
+            irm $moduleUrl | iex
+        }
+        Write-Host "✔️ Módulos remotos carregados com sucesso!" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Falha crítica durante o carregamento dos módulos remotos." -ForegroundColor Red
+        Write-Host "Erro: $($_.Exception.Message)"
+        Read-Host "Pressione ENTER para sair."
+        exit
+    }
+}
+Start-Sleep -Seconds 1
+#endregion
+
+#region Verificação de Privilégios e Configuração Inicial
+# ======================================================================================================================
+# 🚨 Verificação de Privilégios
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
+    Write-Host "⏫ Permissões de administrador necessárias. Reabrindo o script..." -ForegroundColor Yellow
+    $commandToRerun = "irm https://raw.githubusercontent.com/marceloajalaalarcon/ferramentaSistema/refs/heads/main/main.ps1 | iex"
+    $encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($commandToRerun))
+    Start-Process powershell.exe -ArgumentList "-EncodedCommand $encodedCommand" -Verb RunAs
     exit
 }
 
 # ======================================================================================================================
-#  >>>>>>>>> INÍCIO DA SEÇÃO ADICIONADA <<<<<<<<<
-# ======================================================================================================================
+# Termo de Uso e Ponto de Restauração
+function Mostrar-TermoDeUso {
+    while ($true) {
+        Clear-Host
+        $termo = @"
+================================================================================
+TERMO DE USO, TRANSPARÊNCIA E OPÇÕES INICIAIS
+================================================================================
+
+Olá! Seja bem-vindo à Ferramenta de Manutenção DuckDev.
+Autor: Marcelo Ajala Alarcon
+
+Esta ferramenta foi criada para simplificar e automatizar o acesso a
+utilitários de manutenção poderosos que já existem nativamente no seu Windows.
+O objetivo é ser transparente sobre cada ação executada.
+
+--------------------------------------------------------------------------------
+1. O PRINCÍPIO DA TRANSPARÊNCIA: O QUE A FERRAMENTA FAZ
+--------------------------------------------------------------------------------
+
+Este script não instala softwares de terceiros. Ele apenas executa comandos
+que você mesmo poderia digitar no Prompt de Comando ou PowerShell.
+
+* Ações Principais: sfc /scannow, DISM.exe /RestoreHealth, chkdsk.exe,
+  limpeza de arquivos temporários, reset de componentes do Windows Update, etc.
+
+--------------------------------------------------------------------------------
+2. OS RISCOS ENVOLVIDOS: SUA RESPONSABILIDADE COMO USUÁRIO
+--------------------------------------------------------------------------------
+
+Apesar de usar ferramentas nativas, qualquer operação de manutenção profunda
+oferece riscos, especialmente em sistemas personalizados ou com falhas de
+hardware pré-existentes.
+
+É ALTAMENTE RECOMENDADO QUE VOCÊ FAÇA UM BACKUP DE SEUS DADOS IMPORTANTES
+ANTES DE EXECUTAR QUALQUER OPÇÃO DE REPARO.
+
+--------------------------------------------------------------------------------
+3. O ACORDO: TERMO DE RESPONSABILIDADE
+--------------------------------------------------------------------------------
+
+Este software é fornecido "COMO ESTÁ", sem garantia de qualquer tipo.
+AO USAR ESTE SCRIPT, VOCÊ CONCORDA QUE O AUTOR (MARCELO AJALA ALARCON) NÃO
+SERÁ RESPONSABILIZADO por quaisquer danos, incluindo perda de dados ou
+instabilidade do sistema. A responsabilidade pelo uso é inteiramente sua.
+
+--------------------------------------------------------------------------------
+4. CONFIGURAÇÃO INICIAL (LEIA COM ATENÇÃO)
+--------------------------------------------------------------------------------
+
+Para sua segurança, a ferramenta SEMPRE criará um Ponto de Restauração do
+Sistema antes de executar qualquer tarefa.
+
+A única escolha necessária é se você deseja que a ferramenta lembre do seu
+consentimento para não exibir esta tela nas próximas vezes.
+
+"@
+        Write-Host $termo -ForegroundColor Yellow
+        Write-Host "================================================================================" -ForegroundColor Cyan
+        Write-Host "[1] Aceitar e Lembrar Consentimento (Recomendado)" -ForegroundColor Green
+        Write-Host "[2] Aceitar Apenas para Esta Sessão" -ForegroundColor Yellow
+        Write-Host "[0] Recusar e Sair" -ForegroundColor Red
+        
+        $escolha = Read-Host "Digite sua escolha"
+        switch ($escolha) {
+            '1' { return @{ Action = 'Proceed'; SaveConsent = $true; } }
+            '2' { return @{ Action = 'Proceed'; SaveConsent = $false; } }
+            '0' { return @{ Action = 'Exit'; SaveConsent = $false; } }
+            default { Write-Host "`nOpção inválida." -ForegroundColor Red; Start-Sleep -Seconds 2 }
+        }
+    }
+}
+
+$consentFile = Join-Path $env:APPDATA "DuckDevToolConsent.txt"
+if (-not (Test-Path $consentFile)) {
+    $userChoice = Mostrar-TermoDeUso
+    if ($userChoice.Action -eq 'Proceed') {
+        if ($userChoice.SaveConsent) { Set-Content -Path $consentFile -Value "Termos aceitos em $(Get-Date)" | Out-Null }
+    } else {
+        Write-Host "`nVocê não aceitou os termos. O script será encerrado." -ForegroundColor Red; Start-Sleep -Seconds 3; exit
+    }
+}
+
+$Host.UI.RawUI.WindowTitle = "🔧 Ferramenta de Manutenção do Sistema - DuckDev v3.0"
+$Host.UI.RawUI.ForegroundColor = "White"
+$Host.UI.RawUI.BackgroundColor = "DarkBlue"
+Clear-Host
+
+# Chama a função que foi carregada do helpers.ps1
+Verificar-Antivirus
+#endregion
 
 #region Lógica Principal de Execução
 
-# Após carregar todos os módulos, o script entra no loop principal do menu interativo.
+function Mostrar-Menu {
+    Clear-Host
+    Write-Host "============================================" -ForegroundColor Cyan
+    Write-Host "    🔧 FERRAMENTA DE MANUTENÇÃO DO SISTEMA" -ForegroundColor White
+    Write-Host "============================================" -ForegroundColor Cyan
+    Write-Host
+    Write-Host "--- SISTEMA ---" -ForegroundColor Green
+    Write-Host "[1] 🔍 Verificar arquivos do sistema (SFC)"
+    Write-Host "[2] 🛠️  Reparo da imagem do sistema (DISM)"
+    Write-Host
+    Write-Host "--- DISCO ---" -ForegroundColor Green
+    Write-Host "[3] 💾 Agendar verificação de disco (CHKDSK)"
+    Write-Host "[4] 🧹 Limpeza de arquivos temporários"
+    Write-Host "[5] 🧪 Verificar status SMART do disco"
+    Write-Host
+    Write-Host "--- REDE E ATUALIZAÇÕES ---" -ForegroundColor Green
+    Write-Host "[6] 🌐 Cofiguração de rede"
+    Write-Host "[7] ♻️ Reiniciar componentes do Windows Update"
+    Write-Host
+    Write-Host "--- OUTROS ---" -ForegroundColor Green
+    Write-Host "[8] 📅 Agendar tarefa de limpeza diária"
+    Write-Host "[9] 🖨️ Limpar fila de impressão"
+    Write-Host
+    Write-Host "--- SAIR ---" -ForegroundColor Red
+    Write-Host "[0] ❌ Sair"
+    Write-Host
+}
+
+if ($ScheduledClean.IsPresent) {
+    Executar-Limpeza | Out-Null
+    exit
+}
+
 do {
-    # A função Mostrar-Menu (que foi carregada de um dos seus módulos) exibe as opções.
     Mostrar-Menu
     $opcao = Read-Host "Escolha uma opção"
 
-    # O switch direciona para a função correta com base na escolha do usuário.
     switch ($opcao) {
-        "0" { 
-            Write-Host "Saindo da ferramenta. Até mais!" -ForegroundColor Green
-            exit 
-        }
+        "0" { exit }
         "1" { Executar-SFC }
         "2" { Executar-DISM }
         "3" { Executar-CHKDSK }
         "4" { Executar-Limpeza }
         "5" { Verificar-SMART }
-        "6" { Network-Rede } # Assumindo que o nome da função do menu de rede seja este
+        "6" { Diagnostico-Rede }
         "7" { Reiniciar-WU }
         "8" { Agendar-Tarefa }
         "9" { Limpar-FilaImpressao }
-        default {
-            Write-Log "`n❗ Opção inválida. Por favor, tente novamente." -ForegroundColor Red
-            Start-Sleep -Seconds 2
-        }
+        default { Write-Log "`n❗ Opção inválida." -ForegroundColor Red; Start-Sleep -Seconds 2 }
     }
-} while ($true) # O loop continua indefinidamente até que a opção "0" chame 'exit'.
-
-#endregion
-
+} while ($true)
 #endregion
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU9CPqJkMrpJ48ZjO/EfnYEfTe
-# 1zOgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU/vFOUTsupUssiGGHYSooKSSJ
+# HxegghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -203,28 +357,28 @@ do {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFFBRC0PdtpdF+ilZzOdIeBw5Z5C+MA0GCSqGSIb3DQEBAQUABIIBADmN
-# PUUllBxlAzZD9v2YrhsBHdayKnYqmrDEGRwx49ShcdCcYPLOk2OyFZzSNwaJykxX
-# sbmdUb3Bj1F8RM9O5HQcTXYMPnO4kmOViXGVTMmbQ2dGeh68FQVEod3zZvf1QuNI
-# 7irZVQ5X1PW8YFlPWJZSKd5ygLsm1i2+bWsMFpnCV67T1tAV9S8H5wO/wfWVvUBp
-# iFWa/RzUYScKGQAhgml1dDn8yOIggRzPupF61/AMd+4lf6oHPrU6utwHLEmgYl0B
-# CKj6NghobU2Ft/5WKamOoIob8cJ9lMpM8OQGVav2+hyRoKaNmGBJ3X+M4/9Pi5oo
-# mMJpxhxodGV9XVY+mBehggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFKwE4cWaJKE4cwoUBnx8dPi3+sRfMA0GCSqGSIb3DQEBAQUABIIBAECP
+# h4aJKpqBTvcpO+Tv2h5bY+eW+Z1ZpqIemPq+MJJA8X2nf6/BjT38/lbbdW9PE7Bl
+# EJTktfRJ2cikyfKSybdxKhucVhQeiyOyB9pS+13UtuTXG7SCxJUko37aDpLP50R8
+# ssRKTS0govF43H6QiDt9TnPO5xOHozhnQuuGUPLf5Hqr5McpaLh26m536C+lI8lE
+# UA4x7BADl0e1+VUaEj/m81hdElDEgegMRBQDoClv2UEHNxmzMh98cGvvF19lflA7
+# OSKbqToJQUOXYPNSMjzyNA4euMd93MZ9k47PvvQeeZrOCYXvnk9jLUt7KFMlhBi3
+# n/rN49ZmWDLh9s37rOyhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjM0MjIzWjAv
-# BgkqhkiG9w0BCQQxIgQg3u0JA0EvTAoyX4dkMdvCcWL9hyPEc+fziGFHgbtPQEUw
-# DQYJKoZIhvcNAQEBBQAEggIALkdxpfCSTW0GKsdKtlPZMKfCls4OWYLVcuwO3c2P
-# daVMCmDxBADP8INag5/Ah9lttp7PPcH2Dq9Sbz+sdsj5D2w4ZrvsS64lXEbhI/jF
-# RtOt9JxYW4iBDC2wbR1dgnhF5pc8ZFPV0gDKIPmZ0nZJJZ7DD1Z21DBngqDSPHUQ
-# KkVW9WNkBCdEc7egA9c4b1kkE+r6HqnmBW9W0igXK3C/mE/OCdFhPa2O64p5iW7g
-# 1DU05RfBmuEjpbBJyx+LDFKUTqthTOZnkKlK8Ux/uyFQE2/J50/NZIqXkgs94acQ
-# uz0U7O5cF73DW0OC163upPlrmKgrtkepJMJyhgE/oE7q2+QsCyLJOz3ZbdN5UZIx
-# edEuGai2/1qcY1wEco1bLlqUyktoVkr37QjdvY8Yr+rYr7/TzZuQoGr/q0C8C5oJ
-# 9rR+IgkBCqgS06phPHuQZ+Sbjnmi8XYlfCt6MsznV7PkUyOcBdWSAFFFKNXSFzT+
-# 4R4MXzY5Edw8ugF9Q2DIiakPjvfoJG1N9X1jiBdUsjuaisVVWk7cuB+xdbWaNXOl
-# /5EOvb9TpvW2zG3rrat7nGXuGdnywMdtb6ZJTDHirtRTGomq6CUbmPyHg55b+CBh
-# XMEC4OxQ+SxMMCVgPw+KdWv94ukdm1Gxd9US9CKlWl5AA16l2Gn2kD0noA+j6Rv2
-# tKw=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI4MjM1OTUzWjAv
+# BgkqhkiG9w0BCQQxIgQgjvPfjxyimR7QcGnIKh6Z1ZWq0Su3mSa0RFtte5HERhEw
+# DQYJKoZIhvcNAQEBBQAEggIArBgdRypaSGn7Z3vx1JcUAW7nvoDMA5rhIUUfoeH4
+# Xr2ZacUfpsed8UWh8xfrjM6w+83i5jOhb5UtX9w6/ArhEp4D4m3luQnvsug/D+vl
+# z8P4r8qI2DMypH9VFY13ju51CNW/YEgPpQgQdSI46GwI9Fr0dxquXe3FD9tS8F8g
+# tfWIP4GNeuFHD/nMaIU2rEDFY+tRjaE6HFtoiJBY/gfvZcUxg11Cq1VPIrLze7AC
+# lNmkgeSyoslCh9JyKtjT4tm/eDZJQYYvOpqTyehFXpClGgWXhbmd97f9jLTuPJs3
+# LbppJNdvj1TO0obEll7xHF/vcBlUfg0JFtMhvmMl/fHDFaDmyyN3qciw4DpE57Mg
+# lPwwHLDZDbtkgHCCSlRd8C2Kzg2YqdAo61+3eNuYTsG0XnCogNiixBO6mCYNNNN1
+# 2X0VAxu/bW6fS3Ioth2437PAvSqQmZ+jKCwUFqprHDrmKsoz/jUT7BDxInjsLOvx
+# Ap17ODfdEigQkHI+C0rFr2tHg13XSWPh3NcGCGgyJ0nfHW1O9cT32dRGl7VpimrZ
+# 0g7XmxOu09z/4kN4ZbzqTrGbdcpipQak4FNTmf+Mj7bVCT7hJAt4P9+YY4Z6lz47
+# jDMZkFPFlA7lW06d2bonLc/I9NSQEY7u+ADT7bPOmcmCdTT3POd1YtJ2sSM++0Mn
+# CB0=
 # SIG # End signature block
