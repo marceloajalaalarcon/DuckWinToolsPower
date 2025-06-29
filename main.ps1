@@ -47,26 +47,47 @@ if ($PSScriptRoot) { # MODO LOCAL
     }
     
 } else { # MODO REMOTO (GITHUB)
-    Write-Host "✅ Detectado modo de execução remoto (GitHub)." -ForegroundColor Cyan
+    Write-Host "✅ Detectado modo de execução remoto (GitHub) com verificação de assinatura." -ForegroundColor Cyan
     $githubBaseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/'
     $manifestUrl = $githubBaseUrl + "modules.json"
     
     try {
-        Write-Host "=> Baixando o manifesto de: $manifestUrl"
-        $modulesToLoad = irm $manifestUrl
+        Write-Host "=> Baixando o manifesto de módulos..."
+        # O ideal é que seu manifest seja um JSON. Ex: '["helpers.ps1", "disk.ps1"]'
+        # Se for texto simples, use: $modulesToLoad = (irm $manifestUrl) -split "`n"
+        $modulesToLoad = irm $manifestUrl | ConvertFrom-Json
         
-        Write-Host "=> Carregando os seguintes módulos:" -ForegroundColor Green
-        $modulesToLoad | ForEach-Object { Write-Host "   - $_" }
+        Write-Host "=> Módulos a serem verificados e carregados: $($modulesToLoad -join ', ')" -ForegroundColor Green
 
         foreach ($moduleFile in $modulesToLoad) {
             $moduleUrl = $githubBaseUrl + $moduleFile
-            Write-Host "   -> Carregando módulo remoto: $moduleFile" -ForegroundColor Yellow
-            irm $moduleUrl | iex
+            $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1" # Cria um nome de arquivo temporário único
+
+            try {
+                Write-Host "   -> Baixando '$moduleFile' para verificação..."
+                irm $moduleUrl -OutFile $tempFilePath
+
+                Write-Host "   -> Verificando módulo: $moduleFile" -ForegroundColor Gray
+                $signature = Get-AuthenticodeSignature -FilePath $tempFilePath
+
+                if ($signature.Status -eq 'Valid') {
+                    Write-Host "   -> Assinatura VÁLIDA. Carregando: $moduleFile" -ForegroundColor Yellow
+                    . $tempFilePath
+                } else {
+                    throw "MÓDULO REMOTO INSEGURO BLOQUEADO: '$moduleFile'. Status da assinatura: $($signature.Status)"
+                }
+            }
+            finally {
+                # O bloco 'finally' GARANTE que o arquivo temporário seja apagado, mesmo se ocorrer um erro.
+                if (Test-Path $tempFilePath) {
+                    Remove-Item $tempFilePath -Force
+                }
+            }
         }
-        Write-Host "✔️ Módulos remotos carregados com sucesso!" -ForegroundColor Green
+        Write-Host "✔️ Todos os módulos remotos seguros foram carregados com sucesso!" -ForegroundColor Green
     } catch {
-        Write-Host "❌ Falha crítica durante o carregamento dos módulos remotos." -ForegroundColor Red
-        Write-Host "Erro: $($_.Exception.Message)"
+        Write-Host "❌ ERRO DE SEGURANÇA OU CARREGAMENTO REMOTO" -ForegroundColor Red
+        Write-Host "$($_.Exception.Message)"
         Read-Host "Pressione ENTER para sair."
         exit
     }
@@ -235,8 +256,8 @@ do {
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUQbjGQaoh36dBgNVrUt/A/Lco
-# /AWgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUlt0izUUDY4mWpyRDoMiE05Um
+# DNygghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -357,28 +378,28 @@ do {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFAtqm5BPCGatPByAGW3smmT8hnqfMA0GCSqGSIb3DQEBAQUABIIBACUY
-# D9H+PAYBh5OvOsMnk/cFK8KyxOh5hGdBiawWHIJSE5lIdvGMmJoSv3V65o7h5tJa
-# teuMJJv4EJD9MgjXSig/eC2MoDV/ZDNbVN+jS7dk0uf0KbhnDJ9XcjIRkcDFS8hX
-# NgV6d+TfadSOZmccEZqkALG0aBVkGD7a0e1pAcn/xBXuSYITq2UMR9iOpQCxQB69
-# XIb+To/TChDFJCPIZfM94nBEtY1aixpEWOl5r0qgArAVDELN18squk+45Gq/YB9v
-# h/96ycejOialcHVCCXXP+NRNT8/V9XTHpOToJKcRu7rMhSxZYexlfJUe+WwoENXN
-# y9ZaBV77T0VOaffvrmihggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFBegQtUc4tFUQKdT562GI5ZDeX3fMA0GCSqGSIb3DQEBAQUABIIBADVq
+# 9XHlG4QzZZQU7fbfK20Ll5qlHmK25z1RBoD236oDiCRV2fzpdQDNvWFi2JRNq9uh
+# AeMz8Go20xfV89ew01exdfMjrSRGDWBeYjmY2+WxKcqLGbnlyBcATGqvvOxTMb9r
+# c2v6X+OZ9dmoHpikO5aTII/tf2PPZTqBiJAPmJXrfLbf7he9hd5a/2Vn3NUtGquf
+# 0uSEREeKLDKOj3j+otTwDkwfkC46GVMDJmuoheUTZk4ZVVMFLf1HlOT8LMEbxana
+# Y+nruEGti/47M4C9yBo/J04y6IlLUjWPjSTwO6dv8rWhnFrEEo4B/3V7yNRt7UMB
+# u4gdl9KigbYklA0grKmhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAzMTMwWjAv
-# BgkqhkiG9w0BCQQxIgQgHlATJ726Fn8bSCLL84iCada6UfFnCxglTsLJa3ejRU4w
-# DQYJKoZIhvcNAQEBBQAEggIAEUbdgv5lOJ3QSoKNGzXiSSrikb7JS23la7wfjCB3
-# HCM5vOQdwA7OJhKIV1FXbz3F5paYAvb/TcTTg6WgF+F7GlzezHxiGCUL9IvYkozI
-# 2E9gmLKUPY7LDcn/rUZpZBsnKPM3yG2ijzCqQXsdNzl3/FUGB6Vt7mjZx497HvuG
-# G6nHU/oudcfLvfAtVDEj1l2/v3MhEXXT8PDxXkF+JUovBIvGhE6agS/lycmoUnyE
-# g3yrqvzpzSUMm/96D1ERZSTSdF8f2stEoLF+tBGDu+JWqW+pRXCmCch09yX57im2
-# tIgzBO9n8C0nEHlSey+uH0NrYKoaiaPGNUBk1DZ0bmUEGnqYH2jWurX5jxZ293bQ
-# f7UqambNM6AkmHlm5/zOIlICCwXUg7lawhlHhys3fCNQuMnQ8KVKxx81v7Vv4zpz
-# HI1fRJbu6kc25K8XOvMA6cZOuiEB3vmjK3Il36FmAlIXiP9sl7/QfqYhRhux9d4d
-# dh61LmVgT/UoDvKSV8ahCT/2HecjEDC5XU/LVH6pWOaxnDm3gYj0TLRoJVhdrrLr
-# rTx1cXGlGFeCRIn7S/EjcxhBgzYAAlqSZ7gK0kB1Syd7RnRoY7epmhsHMwRjPMoQ
-# VsOb/kNMspxFkLMJ+m9i89UNt0Kv90lHud8D6d4AGCaNq5lT2jpNc8dP/OpGsQIL
-# STs=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDIxODI1WjAv
+# BgkqhkiG9w0BCQQxIgQg8IWHvtf0kqbY4MgS4W2TngmjN2fk7Vh8W+SvftDMzKEw
+# DQYJKoZIhvcNAQEBBQAEggIAdZoOSU7rRskk0M3kFKdD3WfGpMfsffx+G7da63gF
+# qI8EQRhxEQFbcL/GiV/5F/2JYvgOlcIBXh7ilYTHez6eAv/usQOIZC6YGc6Uaw3J
+# vWuRbWRK7kbTA5n1UkyFK4TYsJBT2dSIwUvzxUAzNkvq0G/k14xW0UnuwDHidC3s
+# 5kgVtYhFlCqA8+y7L6zHtZsxsO2j+jWc1oj5S/Ofdx0CXsjygC8ZNlVBTrHwO/gf
+# wu4ki74OOdkrNykaM9v5OZNSPt45Czm6pMPlqV67Sow4/kfZlBA5ypQmv26ictbN
+# 4U7MwST7sITKpKuncTdeXVglIA+Immv9jS3mZKcsltt1tVThQRrgCuQ29AHX83AZ
+# SF/6+3sONHtpj3uriZRyjHRNEdjl1OJL/H3QDqq55NyR3bSTHLmOS7HW5+hqGtR8
+# s/ugWN7849BgqVDUhhDPk7eCSJukxBqstrEK5ZnqXmQ0iwYgqofHYBbDveQf1i/Z
+# oqQeA3QD/w1LJc+cQPqjJUCD7dq66W9YYGbdp00zKAo9KPhIuMbknYImGPa4j7DN
+# 4FpBU9VPz51iZD4zRdnqUZIiQtM1h++IDYeqPJnKTapPY8wuhDFnhcpLBo7jq3MS
+# jEPbNmusP9fZ+gS5XlmUvTvJ4rQ32XMLKLF4ZRyQDtcnjyS4HQ5UprrU/14tFBR0
+# sjc=
 # SIG # End signature block
