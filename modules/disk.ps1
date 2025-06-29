@@ -3,64 +3,74 @@
 
 # Função para executar o chkdsk, limpeza dos arquivos temp e verificação stmart do SSD/HD
 function ExecutarCHKDSK {
-    Clear-Host
-    Write-Log '💾 Agendando verificação de disco (CHKDSK)...' -ForegroundColor Yellow
-    Write-Log 'O CHKDSK será executado na próxima vez que o computador for reiniciado.' -ForegroundColor Cyan
-
-    try {
-        # Usando a variável de ambiente para o disco do sistema.
-        chkdsk.exe $env:SystemDrive /f /r
-        Write-Log "`n✔️ CHKDSK agendado com sucesso para a unidade $env:SystemDrive." -ForegroundColor Green
-        Write-Log "Reinicie o computador para iniciar a verificação." -ForegroundColor Yellow
-    } catch {
-        Write-Log "`n❌ Falha ao agendar o CHKDSK. Erro: $_" -ForegroundColor Red
-    }
+    Write-Log "Agendando verificação de disco (CHKDSK)..." -ForegroundColor Yellow
+    Write-Log "A verificação será realizada na próxima vez que você reiniciar o computador."
+    
+    chkdsk C: /f /r /x
+    
+    Write-Log "Comando enviado. Por favor, reinicie o sistema para iniciar a verificação."
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 
 function ExecutarLimpeza {
-    Clear-Host
-    Write-Log '🧹 Limpando arquivos temporários...' -ForegroundColor Yellow
+    Write-Log "Iniciando Limpeza de Disco..." -ForegroundColor Cyan
+    $totalLiberado = 0
     
-    # Lista de pastas a serem limpas.
-    $pastas = @(
-        [System.IO.Path]::GetTempPath(), # Pasta Temp do usuário atual
-        "$env:windir\Temp"               # Pasta Temp do Windows
+    $tempPaths = @(
+        "$env:TEMP",
+        "$env:windir\Temp",
+        "$env:USERPROFILE\AppData\Local\Microsoft\Windows\INetCache"
     )
 
-    foreach ($pasta in $pastas) {
-        if (Test-Path $pasta) {
-            Write-Log "`n🗂️  Limpando: $pasta" -ForegroundColor Cyan
-            try {
-                # Pega os itens e os remove. O -ErrorAction SilentlyContinue ignora arquivos em uso.
-                Get-ChildItem -Path $pasta -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
-                Write-Log "✔️  Limpeza de $pasta concluída." -ForegroundColor Green
-            } catch {
-                # Captura erros inesperados durante a limpeza.
-                Write-Log "❌ Falha ao limpar '$pasta': $($_.Exception.Message)" -ForegroundColor Red
+    try {
+        foreach ($path in $tempPaths) {
+            if (Test-Path $path) {
+                $files = Get-ChildItem -Path $path -Recurse -Force -ErrorAction SilentlyContinue
+                if ($files) {
+                    $tamanhoAntes = ($files | Measure-Object -Property Length -Sum).Sum
+                    Remove-Item -Path $path -Recurse -Force -ErrorAction SilentlyContinue
+                    $totalLiberado += $tamanhoAntes
+                }
             }
-        } else {
-            Write-Log "`n⚠️ Pasta não encontrada: $pasta" -ForegroundColor Yellow
         }
+        
+        # Limpar cache de downloads do Windows Update
+        $wuDownloadPath = "$env:windir\SoftwareDistribution\Download"
+        if (Test-Path $wuDownloadPath) {
+            $files = Get-ChildItem -Path $wuDownloadPath -Recurse -Force -ErrorAction SilentlyContinue
+            if ($files) {
+                $tamanhoAntes = ($files | Measure-Object -Property Length -Sum).Sum
+                Remove-Item -Path $wuDownloadPath -Recurse -Force -ErrorAction SilentlyContinue
+                $totalLiberado += $tamanhoAntes
+            }
+        }
+
+        if ($?) {
+            $totalMB = [math]::Round($totalLiberado / 1MB, 2)
+            Write-Log "✅ Limpeza concluída com sucesso. Espaço liberado: $totalMB MB" -ForegroundColor Green
+        } else {
+            Write-Log "❌ Ocorreu um erro durante a limpeza." -ForegroundColor Red
+        }
+    }
+    catch {
+        Write-Log "❌ ERRO CRÍTICO DURANTE A LIMPEZA: $($_.Exception.Message)" -ForegroundColor Red
     }
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 
 function VerificarSMART {
-    Clear-Host
-    Write-Log '🧪 Verificando status SMART dos discos...' -ForegroundColor Yellow
+    Write-Log "Verificando status SMART dos discos..."
     try {
-        # Usando Get-CimInstance, que é o comando moderno.
-        $discos = Get-CimInstance -ClassName Win32_DiskDrive
-        foreach ($disco in $discos) {
-            Write-Host "`nModelo: $($disco.Model)"
-            $status = switch ($disco.Status) {
-                'OK' { Write-Host "Status: $($disco.Status)" -ForegroundColor Green }
-                default { Write-Host "Status: $($disco.Status)" -ForegroundColor Red }
-            }
+        $disks = Get-PhysicalDisk -ErrorAction Stop
+        
+        foreach ($disk in $disks) {
+            $status = $disk.HealthStatus
+            $cor = if ($status -eq 'Healthy') { 'Green' } else { 'Red' }
+            Write-Log "Disco $($disk.DeviceID) ($($disk.FriendlyName)): $status" -ForegroundColor $cor
         }
-    } catch {
-        Write-Log "`n❌ Não foi possível verificar o status SMART. Erro: $($_.Exception.Message)" -ForegroundColor Red
+    }
+    catch {
+        Write-Log "❌ Não foi possível obter o status SMART. O comando Get-PhysicalDisk pode não ser suportado ou requer privilégios elevados." -ForegroundColor Red
     }
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
