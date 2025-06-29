@@ -18,16 +18,16 @@ function Network-Rede-Debug {
     )
 
     try {
-        Write-Host '`n$MensagemProgresso' -ForegroundColor Yellow
+        Write-Host "`n$MensagemProgresso" -ForegroundColor Yellow
         
         # O comando Invoke-Expression executa uma string como se fosse um comando
         Invoke-Expression -Command $Comando
 
-        Write-Host '`n✔️ $MensagemSucesso' -ForegroundColor Green
+        Write-Host "`n✔️ $MensagemSucesso" -ForegroundColor Green
     }
     catch {
-        Write-Host '`n❌ Ocorreu um erro ao executar o comando '$Comando'.' -ForegroundColor Red
-        Write-Host '   Detalhes do erro: $($_.Exception.Message)' -ForegroundColor Red
+        Write-Host "`n❌ Ocorreu um erro ao executar o comando '$Comando'." -ForegroundColor Red
+        Write-Host "   Detalhes do erro: $($_.Exception.Message)" -ForegroundColor Red
     }
     finally {
         # Uma pausa mais explícita para o usuário
@@ -45,7 +45,7 @@ function Network-Rede {
     do {
         Clear-Host
         Write-Host '📅 MENU DE CONFIGURAÇÃO DE REDE' -ForegroundColor Cyan
-        Write-Host '`n[1] 🌐 Renovar Configurações de Rede (Liberar, Renovar, Limpar DNS)' -ForegroundColor Yellow
+        Write-Host "`n[1] 🌐 Renovar Configurações de Rede (Liberar, Renovar, Limpar DNS)" -ForegroundColor Yellow
         Write-Host '[2] 🔁 Reset de IP (Liberar e Renovar IP)' -ForegroundColor Yellow
         Write-Host '[3] 🧹 Limpar DNS (Limpar cache DNS)' -ForegroundColor Yellow
         Write-Host '[4] 📴 Desconectar IP (Liberar IP atual)' -ForegroundColor Yellow
@@ -57,45 +57,45 @@ function Network-Rede {
         switch ($escolhaREDE) {
             '1' {
                 # Executa cada comando sem pausar
-                Diagnostico-Rede-Debug  -Comando 'ipconfig /release' -MensagemProgresso 'Liberando IP atual...' -MensagemSucesso 'IP Liberado.' -PausarAoFinal $false
-                Diagnostico-Rede-Debug  -Comando 'ipconfig /renew' -MensagemProgresso 'Renovando concessão de IP...' -MensagemSucesso 'IP Renovado.' -PausarAoFinal $false
-                Diagnostico-Rede-Debug  -Comando 'ipconfig /flushdns' -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug  -Comando "ipconfig /release" -MensagemProgresso 'Liberando IP atual...' -MensagemSucesso 'IP Liberado.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug  -Comando "ipconfig /renew" -MensagemProgresso 'Renovando concessão de IP...' -MensagemSucesso 'IP Renovado.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug  -Comando "ipconfig /flushdns" -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
             
                 # Adiciona uma mensagem final e uma única pausa
-                Write-Host '`n✅ Feito!' -ForegroundColor Green
-                Read-Host '`nPressione Enter para continuar...' | Out-Null
+                Write-Host "`n✅ Feito!" -ForegroundColor Green
+                Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             '2' {
-                Diagnostico-Rede-Debug -Comando 'ipconfig /release' -MensagemProgresso 'Liberando IP atual...' -MensagemSucesso 'IP Liberado.' -PausarAoFinal $false
-                Diagnostico-Rede-Debug -Comando 'ipconfig /renew' -MensagemProgresso 'Solicitando novo IP...' -MensagemSucesso 'Reset de IP feito.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso 'Liberando IP atual...' -MensagemSucesso 'IP Liberado.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso 'Solicitando novo IP...' -MensagemSucesso 'Reset de IP feito.' -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
-                Write-Host '`n✅ Feito!' -ForegroundColor Green
-                Read-Host '`nPressione Enter para continuar...' | Out-Null
+                Write-Host "`n✅ Feito!" -ForegroundColor Green
+                Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             '3' {
-                Diagnostico-Rede-Debug -Comando 'ipconfig /flushdns' -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug -Comando "ipconfig /flushdns" -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
 
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host '`nPressione Enter para continuar...' | Out-Null
             }
             '4' {
-                Diagnostico-Rede-Debug -Comando 'ipconfig /release' -MensagemProgresso 'Desconectar IP...' -MensagemSucesso 'IP atual liberado.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso 'Desconectar IP...' -MensagemSucesso 'IP atual liberado.' -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host '`nPressione Enter para continuar...' | Out-Null
             }
             '5' {
-                Diagnostico-Rede-Debug -Comando 'ipconfig /renew' -MensagemProgresso 'Reconectar IP...' -MensagemSucesso 'IP renovado.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso 'Reconectar IP...' -MensagemSucesso 'IP renovado.' -PausarAoFinal $false
             
                 # Adiciona uma mensagem final e uma única pausa
-                Read-Host '`nPressione Enter para continuar...' | Out-Null
+                Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
             '0' {
-                Write-Host '`nSaindo do menu de rede...' -ForegroundColor Gray
+                Write-Host "`nSaindo do menu de rede..." -ForegroundColor Gray
             }
             Default {
-                Write-Host '`n❌ Opção inválida. Tente novamente.' -ForegroundColor Red
+                Write-Host "`n❌ Opção inválida. Tente novamente." -ForegroundColor Red
                 Start-Sleep -Seconds 2
             }
         }
@@ -111,8 +111,8 @@ function Reiniciar-WU {
     
     $servicos = 'wuauserv', 'cryptSvc', 'bits', 'msiserver'
     $pastas = @(
-        '$env:windir\SoftwareDistribution',
-        '$env:windir\System32\catroot2'
+        "$env:windir\SoftwareDistribution",
+        "$env:windir\System32\catroot2"
     )
 
     try {
@@ -129,19 +129,19 @@ function Reiniciar-WU {
         Write-Log 'Iniciando serviços do Windows Update...'
         Start-Service -Name $servicos -ErrorAction Stop
 
-        Write-Log '`n✔️ Componentes do Windows Update redefinidos com sucesso.' -ForegroundColor Green
+        Write-Log "`n✔️ Componentes do Windows Update redefinidos com sucesso." -ForegroundColor Green
     } catch {
         Write-Log "`n❌ Falha ao redefinir o Windows Update. Erro: $($_.Exception.Message)" -ForegroundColor Red
-        Write-Log 'Pode ser necessário reiniciar o computador.' -ForegroundColor Yellow
+        Write-Log "Pode ser necessário reiniciar o computador." -ForegroundColor Yellow
     }
     
-    Read-Host '`nPressione ENTER para voltar ao menu'
+    Read-Host "`nPressione ENTER para voltar ao menu"
 }
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUN/TbQ5XgaUZjzm3yLRdYU3fc
-# VdegghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU1YdQkKgj+ToeKShDqJSJO4Kk
+# JIegghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -262,28 +262,28 @@ function Reiniciar-WU {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFJwrptMSwWKmqGhH4NVIsX/vLZ3zMA0GCSqGSIb3DQEBAQUABIIBAC6C
-# o5I6nlSN3BrPjaJssM7CxEP9SHeGjiEerrEDg8AAsm+JbPxCyPxJ8g29G6jZvTFl
-# u7ryXvrYgwi8htConpRlaxXBFTu6R+qd+H/HpimRgFipfFz20pviVhIV6J45bzhB
-# ZJM+Z3Loded9TgD6T0e1CXPnCtP7tuuyf/CTzX6730IjezvBM916rYdF0iXIqVeI
-# ZjX9l2yVJIHLj+mE18dAwsCzwrCUSojaCtaezuLLxCEoN2EtF30PD4F4ZTINEnAC
-# mAjLiO4RNE4FyXyebg/LdT0GwndPJP1G8Wt/l2cnnr0LIAeZXB20nGmPUbutr4t/
-# maSPsTuoEphxSkddLrmhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFPGj+SjSXlXM+kuS/0+IrDO3d4RHMA0GCSqGSIb3DQEBAQUABIIBAHUP
+# mwsnlbpFhOv/m30Z6w1GTM952qLPlr/t2/no/NHj6G2mkaEXGge3XIo0XpPQZrJV
+# 0AcE2FHbYsSVja3SnwvPfkCJRE+cttCgwcksh9LiCGMkDn7S+LPJybJYfldTrRlH
+# dOb/WvIo7x750YtPpx5M4RGtFVZUUnU+Fb5yeRsgIeC1DP0pEKBSIEzXljJXHd5v
+# vWtpQky2f0hUIHmsKmRuIN0o2AV6ZCVnyDGVGIQNi2SMOq+E8Pm6AmIQDanNIERl
+# ApJJzCO65a4fLl/4q8hkg5uC/kBRknwJ2v/dV1vfQ801vjR121xudY0Whvk4a/KX
+# qSwKXKSNVxSQI3dn0IihggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAwOTM2WjAv
-# BgkqhkiG9w0BCQQxIgQgIkx0B8eofEcyv5DIN9BAr/baTgfgX4xrx7nX2Isid9Mw
-# DQYJKoZIhvcNAQEBBQAEggIAkLnSE0/0m1RwyCotjV99pAzx5eHQkaOmZe6vjGgH
-# BAfveyoksmrNhLgK/YY6pfonLgoyPEsvYAAV47fB77RyQXPiSMOcUsgS9gWVP6Hp
-# ai6rYdvsrRiuLjiBwXjApKfe8/dzHskJ2JelOLtT5G6gIkP7I/gaRoNdF4nAr9Fo
-# l0MRf0KWqakW0lngv79KPyMvKI4WjBlA/3wf6hedTy4+dLONyOkH0v8toZcNg3TB
-# FozE60cm1IzVfRlntmpgWh1kNrSeWF4jlNf4j2YkhY58NgCQEyi4EjGn8aouBP8W
-# ctV/qZ+rcNpG2GscQvLWiiaA3UVz+rxGqeqb/6gVWjkOD2Jlq2UfmwsOx6Rsa+E6
-# UxUI4B8JgmbeKYGIkmW+UZxSgFoZPzJFX9Fz45nrjjv0EbkEADazA28AJkaKQwPk
-# ciSyLh3Yc/yEJPlgZWi3D8zSKmuJN1zZ2BL6D6hqAMJYnV758mEcjRbfSQ3XL47R
-# PHMIwne+H6VHroN5/FyIHDksacAjvJDyy7PA2Fqk1X6A2tlWw+Az4r+b6sWXlWMm
-# BQj9I6mRzZEyqk8SnVPPyEmaIPizEJHF8x+rRYya50yIZ45rR3Y0MC6NRag6hUYN
-# eO2EgLtqGdikdSeJ3QvNJH/3FTrvBXMpmvS9j1qtPG+OA3XuVHdmvxDtHm7ZlkSg
-# Msg=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAzMTMxWjAv
+# BgkqhkiG9w0BCQQxIgQgrPmK0j3+eMlm6463j/99I3VgHg02QXIfB7cqmP1rJD4w
+# DQYJKoZIhvcNAQEBBQAEggIAerHcVFK9q2DUsND97jIuKdbpkCeHgsvRUtg7CcqS
+# MYSMQ/U2pd6/SfnJRaWAM3/tytADFPArEHjMOo+n8odaWGzcrp6K4hyS2aWHEbpx
+# BmLzQPELnxGXTyxqtiNrfHiw+opjvGUZ0IyTH4e3znLJiNk5jVEg/hmv921ZjVYx
+# C7KqDX98HQcIJucuvCuFMY/FFF15EQiPfI+1H3YrD6uhpABUV0QiTBkRieNsKwZZ
+# kG5HUGIj4LP54dZxWVk2Zcl0sb3hS3n44CMZmbCUszK9hmJm56NUBlolz/QWoy9y
+# MBOtJakhtKEHdOZ59N8VZhO4Lzf8aPcv2RqHOIj+jgIMO5npi9CF2Og64Z6wi6Vv
+# EkLxIl9diraGsT2YF0B/g+WJ044ht7Oc2cx4JNRUfcdT7HDm7Fp+QcjOEh5rxP5R
+# HXjBE9jybwnEth9utkoO9cWksxyaqNzCGsAU01k3Jj1ijZtt4tYSyktMKdKTYvt5
+# EmOHHz2RpOacgjwiTxY24VMyc1iZQiNiox33dS288lrRQ7yOEUQcxSxKxlCf7BAD
+# T2yoOgmh9F4bLk7J8/v8dfw69aUhL9FQwugckLvQ84BgpnC9FMUEZtSEurCMmtqA
+# bEDppOry0VmsqxD4SgEGO8GM/oyYWwlqIU8HS9SdRA65II5lPcL83ue4FIcPU+eQ
+# 404=
 # SIG # End signature block

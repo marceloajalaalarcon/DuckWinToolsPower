@@ -5,13 +5,13 @@
 function Agendar-Tarefa {
     Clear-Host
     Write-Host '📅 MENU DE AGENDAMENTO DE TAREFAS' -ForegroundColor Cyan
-    Write-Host '`n[1] Agendar limpeza diária do TEMP às 04:00'
+    Write-Host "`n[1] Agendar limpeza diária do TEMP às 04:00"
     Write-Host '[0] Voltar ao menu principal'
-    $escolha = Read-Host '`nEscolha uma opção'
+    $escolha = Read-Host "`nEscolha uma opção"
 
     switch ($escolha) {
         '1' {
-            $pastaAgendada = 'C:\Agendati'
+            $pastaAgendada = "C:\Agendati"
             if (-not (Test-Path $pastaAgendada)) {
                 New-Item -Path $pastaAgendada -ItemType Directory | Out-Null
             }
@@ -28,22 +28,22 @@ function Agendar-Tarefa {
             }
 '@
 
-            $scriptPath = '$pastaAgendada\limpeza.ps1'
+            $scriptPath = "$pastaAgendada\limpeza.ps1"
             Set-Content -Path $scriptPath -Value $scriptLimpeza -Encoding UTF8
 
-            $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-ExecutionPolicy Bypass -File `'$scriptPath`'
+            $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File `'$scriptPath`""
             $trigger = New-ScheduledTaskTrigger -Daily -At 4:00AM
-            $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -RunLevel Highest
+            $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highest
             $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
 
-            Register-ScheduledTask -TaskName 'Limpeza_TEMP_Diaria' -InputObject $task -Force
+            Register-ScheduledTask -TaskName "Limpeza_TEMP_Diaria" -InputObject $task -Force
 
-            Write-Host '`n✔️  Tarefa agendada com sucesso! Será executada todos os dias às 04:00.' -ForegroundColor Green
+            Write-Host "`n✔️  Tarefa agendada com sucesso! Será executada todos os dias às 04:00." -ForegroundColor Green
             Pause
 }
         '0' { return }
         Default {
-            Write-Host '`n❌ Opção inválida. Tente novamente.' -ForegroundColor Red
+            Write-Host "`n❌ Opção inválida. Tente novamente." -ForegroundColor Red
             Start-Sleep -Seconds 2
             Agendar-Tarefa
         }
@@ -66,7 +66,7 @@ function Limpar-FilaImpressao {
         Get-Process spoolsv -ErrorAction SilentlyContinue | Stop-Process -Force
 
         Write-Host '🗑️  Limpando arquivos de spool...' -ForegroundColor Yellow
-        Remove-Item -Path '$env:WINDIR\System32\spool\PRINTERS\*' -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item -Path "$env:WINDIR\System32\spool\PRINTERS\*" -Force -Recurse -ErrorAction SilentlyContinue
 
         if ($PrinterName) {
             Write-Host '❌ Removendo driver da impressora $PrinterName...' -ForegroundColor Yellow
@@ -88,8 +88,8 @@ function Limpar-FilaImpressao {
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUjCGivsvyE3lskNwEWup5Qcmi
-# UHGgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUQkBIh5GNFUci6Wvd/CqQiR0p
+# ocmgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -210,28 +210,28 @@ function Limpar-FilaImpressao {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFGqkb9cVha1AomO5MSBXuVlT9gwXMA0GCSqGSIb3DQEBAQUABIIBADLr
-# k8vUq3Slzc9O254ZdnBzq3uFhKNUyRwcZoPw9J3qFp0YGmjHsuE8PO855BlW1dgo
-# 9WQh0PLwHx9ldvVYI3I8/Eh1VXLiai3kuLkMQQUSusgrov0ZboFzhAy0vWkqkyMB
-# kwCCGn9ZlHGIv52Lyv/hAfGuAKON4+uW3EGInTdAO3jUt08aRqb4KLWqET4tpWKf
-# wfRCl3bv65E7sZDGMlNIV9IaMyLv2aOYEHW+YmbQqJMeMY3qdq7f1/1uP+JXduSU
-# Oi1s4YWCn/57ICY87XqsqIMztqEVA+HBnAl09UjXrAYJWHht25TwawtmdJDpOf1M
-# buNQTGwSRUXaLZXz50ShggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFG0suGleBgiESg3V0AIlM0lljrH6MA0GCSqGSIb3DQEBAQUABIIBACUG
+# Wku/v5JnifY0Mw7eYXeoipvdUM99dqEL9YTT3OKRYm7cRBRRZyia2U03aDSWJIt2
+# y6rBMBYN/5viU+t0Rt4yR0Oe/krFgHpatCEcymrl/BoPIt98K0+022XOV/FImlFe
+# LR0xnHN0mroMg94PAIy3W8OEasvLpWhRIlPUVPyV2V0RZtRAiUWSeaudRwmBjUd9
+# WqF7h+cse3jPy1RjAfaZO/M7T7eoeYP7/MQmgCU9qRUQ4SqPpKAFouuhu6zmC5nd
+# wcZSmgK5CDPQAgglgr3sU4hK/BLZf1Iz2rwwweK14Hvt3SPiR1EqUnvLabve17zK
+# nDzZDGrszOSPNKW/s52hggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAwOTM2WjAv
-# BgkqhkiG9w0BCQQxIgQgb6S33aW7g5aCuw5z5HpF0jbM5Qa6VWpoY76/5g6PxHMw
-# DQYJKoZIhvcNAQEBBQAEggIAcjhI+djweylUpilr9dGhfhJ1UFLBOj3zmuQ/oJ3U
-# 3+TX2kxu0pcMV//IixQZG2skxDtXe8pIi1jVO0BZszD+8Tc5lWLjL03vFO7NXH9a
-# Ma/7MiM1wFRVIN0c0tp0SvoLh56EbUeaJJPntQikTdH/JuZmbbyYJNMXDPU4IJD8
-# JXhIkuu/1ZfwFiOUg6DAI1C0H/A3mATqPM3hvBhMKngovaMgjruAmJR2ODOlAVmB
-# 6pxgQxVBzKZiaAdfBjEQLuRE7ZhfkKYeknh8D/Zeg1G0tJfKd0Vq+FoSEetB9vuz
-# klY43fu0YIU//fxLgnZSGTEFHgutjn+qJRm2qiy+/EZYPEHu/KJy7QhRXTl8WwV6
-# l8QkyD1wutG+coyRLa/+B2MlKocxRVHkLukEgyxOzPEtA2u6oV6yDthhXgOkvgqJ
-# IHjYQuAYiLN6JYANo6EJq7vSnhi6uLZkF0oBrqAVR09ignh3PJv4A9ML1Y0oAlg8
-# 6KJ4Y0nhpQTTavaOn2M3Y8MkG/Hys1qODXtXrDhxWkh3qSR36a+jg0BTZCluLGN4
-# oJL72thdWs5uqoEPIUYatyPLaVVVaheQg6x0bJmIcbvtu8f6Jygg4PtVMOeTM2ac
-# yHB/FNgTNmOcNeV4jT3Iyh21tC4uxQ5whBQiJV6dOsTipE+Gpcz/DWxBVtJj/7H+
-# 6bY=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAzMTMxWjAv
+# BgkqhkiG9w0BCQQxIgQggayRfrppKkjxweCo1LKG/C3rd9J8GPTkj5lU/IarTGow
+# DQYJKoZIhvcNAQEBBQAEggIAoAEJqNv34rI0PdKPnovgSvaQSfVk+qswc1CakHpr
+# DG1n2DqWvCOPF5kty4nq/Q84qhN8o37AxRDS6r3ZpLnlTso5MRpNAPRBhAz0zfTj
+# rEfbeLYg3n37cXeF29Q3Ps8bNY/pH2aYTJ1vUYV3e4keiW7+bgTRP3STVolg6Ekk
+# GSsLQrcwdHqEg1GD4kV6SrA56auoYTi+2NKw+cHgqnce75LF+9/w8h2rWkDhKrV5
+# FLWp18/JHm5eITWWilvS6xtj3cE9vP4CSjULESzCZQudpRe8Gc5DNBJpuByt6NN9
+# IXPBU+Ze6lGUvtJDeszb3AGermEMjElKHYEwqYuLuLmth/u2oSSVU+E4V5nHLNGJ
+# MynPlpKqhJ8cVkJCkw8YimxIVms1l/Rw8YMG/4ARPQZC23UH6WZXrNXkHprv+k5K
+# v0yxMoPr948r8aANWBYy2XEIhleympBgx4D4OkdA8YjnfNYiztqcPUG++gHlOBnF
+# Ei0CPXbhou0tlTuE1fMbvv5yzf3t2tINDtGnnPlCtK1ks6RExX6Z/7yKQvzcJQJp
+# +0eRaoZSHunvS1EsgQQc/xxY7j/+F5FJeorA7bks3frpPM9a4UN3ykCgbicq+cJv
+# KMc2fWUWCUPgtqi5FTvm0tb5mGnv11JkIaVdHprYjW+CSSFJ/edCbaD8U7kyuSMa
+# osE=
 # SIG # End signature block

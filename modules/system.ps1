@@ -5,14 +5,14 @@ function Executar-SFC {
     Clear-Host
     Write-Log '🔍 Executando verificação de arquivos do sistema (SFC)...' -ForegroundColor Yellow
     Write-Log 'Este processo pode demorar alguns minutos. Por favor, aguarde.'
-    $process = Start-Process sfc.exe -ArgumentList '/scannow' -Wait -PassThru
+    $process = Start-Process sfc.exe -ArgumentList "/scannow" -Wait -PassThru
     if ($process.ExitCode -eq 0) {
-        Write-Log '`n✔️ Verificação SFC concluída com sucesso.' -ForegroundColor Green
+        Write-Log "`n✔️ Verificação SFC concluída com sucesso." -ForegroundColor Green
     } else {
         Write-Log "`n❌ Ocorreu um erro durante a execução do SFC. Código de saída: $($process.ExitCode)" -ForegroundColor Red
-        Write-Log 'Consulte o log em C:\Windows\Logs\CBS\CBS.log para mais detalhes.' -ForegroundColor Yellow
+        Write-Log "Consulte o log em C:\Windows\Logs\CBS\CBS.log para mais detalhes." -ForegroundColor Yellow
     }
-    Read-Host '`nPressione ENTER para voltar ao menu'
+    Read-Host "`nPressione ENTER para voltar ao menu"
 }
 #============================================================================================#
 #============================================================================================#
@@ -22,7 +22,7 @@ function Executar-DISM {
     Clear-Host
     Write-Log '🛠️  Executando reparo da imagem do sistema (DISM)...' -ForegroundColor Yellow
     Write-Log 'Este processo pode demorar bastante e requer conexão com a internet. Por favor, aguarde.'
-    $arguments = '/Online /Cleanup-Image /RestoreHealth'
+    $arguments = "/Online /Cleanup-Image /RestoreHealth"
     $process = Start-Process DISM.exe -ArgumentList $arguments -Wait -PassThru
     if ($process.ExitCode -eq 0) {
         Write-Log '`n✔️ Reparo da imagem DISM concluído com sucesso.' -ForegroundColor Green
@@ -30,13 +30,13 @@ function Executar-DISM {
         Write-Log "`n❌ Ocorreu um erro durante a execução do DISM. Código de saída: $($process.ExitCode)" -ForegroundColor Red
         Write-Log 'Consulte o log em C:\Windows\Logs\DISM\dism.log para mais detalhes.' -ForegroundColor Yellow
     }
-    Read-Host '`nPressione ENTER para voltar ao menu'
+    Read-Host "`nPressione ENTER para voltar ao menu"
 }
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU2A2GPhS3qrdlcywgTM0VdjIc
-# 7KKgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUKvt2MEdUJv2R/7vAHQSHRyEA
+# FHGgghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -157,28 +157,28 @@ function Executar-DISM {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFMrA8AErpq0b65qui/6dzQ+ruoHDMA0GCSqGSIb3DQEBAQUABIIBACas
-# scyTooCdXWiuwvicfpCIf/BBUb5JLV/DEdB+59Kn8eeavwsaP0g5nkfqOHXVowxY
-# qjd6zjtQHRlDKnNbowI8mNz+bPkmo2fVrib9IvXyayqCrWx/H3ax6Nq6rFkbpqZG
-# hrjwMGTaLIa7kuG1nDYj/LfBGbgdedrIZMzbSKU80oWKO5qRNjUu81Pkj5AU1kSq
-# VX+iM4uP7xFXSkp+AFDY/bHs0BPOPKJtLDgXuOtfhYozHBpbmkLSlqRmPZsXRLqO
-# qzkB0j7XVxyuVRA6hxHDYctpm+Fp5Aq7sC0/uhDZsxRMtvzrSZgLIlW9C5mO0G7K
-# t73L9AnTf+4YWf8cU7qhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFImTxtUyYmNdmcYja/5KiuyJ9yhCMA0GCSqGSIb3DQEBAQUABIIBAJVJ
+# Iea8/U6cWDO3ONmb2JOjRF0aVg5JMXRm7Mb5LgNceHvfxyLiil8YMn5QsDGtYr8U
+# u+ieHGQX/PRsgnYYtXAa7vlYYAL2cdnv6c++AGp0ckEOB4lRw8cWy5GZMi35wHIX
+# ivEFXA0dDSofbkLR2xKXjaEOehQWP17FViMqUCAE6LT5C8ey7e4beKb6nmxn2NoM
+# z6IL8CtKAISZgDOyZ4L42f8e8JFaNJAjZpgwS74I70BHhUzxQEHHS+b3s0Hd2pMh
+# mZyYhHpvJuqmMuC67DUdUvlHXrcnu7k4dIcJmg2dqFiJWkjS35c3GOdR2pNDgonh
+# n+leMIUgKlT/aoKDxaGhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAwOTM3WjAv
-# BgkqhkiG9w0BCQQxIgQg2qqLs4RqK8LV/pwkciZ5tyJOHgOT18bOQYuiLLnZr1ww
-# DQYJKoZIhvcNAQEBBQAEggIARlje49Lrb89LQry4Q+k+KGe99ujb8Mc1HjIbWQPg
-# VPzqBj7gl4PlDaEX69wvzZHmO41+T+TobMBEM9wsBKpQYjBRR6q4ukLdZw0JuHs8
-# eRo9hI57o5JlZK8JlnCr45N5kTE3PnOf4nTb1t5pMoVFmp2/vY5f+YFl9nY05KqD
-# Pb4eIrL94ZtOhCeGdZ+VQcc7XS4Nkr78N1BMYhMv1DiAFBQjmTluM+Q+K80ql3kx
-# 7Vz7DgM0Zk8OcMiVKbINAiMK9m7GG4ivFWKjfX0gIBDUJWMyfvUKCGaQCVcENTuK
-# fNnhmCKpgTpM4F8YeK9nocs/a9vfvQydKRgu1OBIwT+AY50Jm46Jj6QkTkdlBI38
-# H0modpWVrGjo7cyx+U7pe8/mMGpbZ/5tbmmzPJTW+1aw9GfK99/q2gF9C9g8w30x
-# x7wLU8Q9B/EyELCpIZ78JiSoNOZvZQxdTeVsEXi+6hH2r8aY8Erdr+7rGabpIDLs
-# Vhz43pLjRn3jccIaLphsxJkgc7+4CPZ6oKRkz9hARECkHvoYwc1vVQp7dVb1MNrf
-# o6A9aP91Yqv2m1Mmbc8xoK1cYweu7mmz4ogK9NTXFGtFolHGZIaL4hex2eHOEwUM
-# 0GvvxkN1RzmY04HjK4bAz6VUHi8r0MT/JFKmnVcIuOwn8eXklpaChwzdh5aB/TnN
-# +J0=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAzMTMxWjAv
+# BgkqhkiG9w0BCQQxIgQgiGUhXnNhzCs1W0QdeUgx0yUXlOaWG5sxze4G6mKNvOIw
+# DQYJKoZIhvcNAQEBBQAEggIAIzukNiAGk4Q5owcj1wykzX9iDFDUWFtDi2cj8iSy
+# zVenQLeF4JRtd2QnvMLOEFNJ2nvhY4yGcVST7Rj+k9maCvVlPgcxpxZ0d63Q3k8n
+# St4G+EuuLywcPzJt2Vr4gZ52rmxiS5rOThIiZa8rLZJ3pvF8v1arieF9vois3XOd
+# gvNQUwFvtLn1zQBAtWRmg1MLIMZisfh2f2qH2EDjvSnuQsiiVoPkre1Don6MSSpm
+# fgpWBz2a2WyThDjleblJB0Z0Jx5HOEZGVrJzsN4eW75vUmoJasy1dBxkIt+0NpCL
+# SCJu3zSpzfmAT0bctmKLNIppbcLO0Ld1YP74sg19ejRmtTkzdA9a07BXr36Axwwj
+# zil7FAeIW8oxl7bmtxf20HR/ONFZMmhAW+BdqS9KjXl1MQbJCKs7CyjqRhQzNMjh
+# CCBA2sVNSFYj6WdsVc8Kud5TR3Cu+/bOVSyXAg9gnTAYlFPGzC6ofANZoJJrndQf
+# vIj3qz4ZcjhfjF+hL5ZGKn1swhFunFd6B+BEc0ROYMy5rspZ59K9MsfwBHrk7DC8
+# EvCrsngBK94z0I1Lzv4qPNIPBXDMFKlRUcKBcYPP6QXrwKzfP+X9SRWOeuu0V0Yd
+# FHvuYaXCodQsZTzBqIE8EBSNT02qLk/aIXFIjGp57wE4GKI7sW3nPgCyjX1CduvG
+# 9rs=
 # SIG # End signature block

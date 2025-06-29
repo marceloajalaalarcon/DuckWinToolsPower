@@ -10,12 +10,12 @@ function Executar-CHKDSK {
     try {
         # Usando a variável de ambiente para o disco do sistema.
         chkdsk.exe $env:SystemDrive /f /r
-        Write-Log '`n✔️ CHKDSK agendado com sucesso para a unidade $env:SystemDrive.' -ForegroundColor Green
-        Write-Log 'Reinicie o computador para iniciar a verificação.' -ForegroundColor Yellow
+        Write-Log "`n✔️ CHKDSK agendado com sucesso para a unidade $env:SystemDrive." -ForegroundColor Green
+        Write-Log "Reinicie o computador para iniciar a verificação." -ForegroundColor Yellow
     } catch {
         Write-Log "`n❌ Falha ao agendar o CHKDSK. Erro: $_" -ForegroundColor Red
     }
-    Read-Host '`nPressione ENTER para voltar ao menu'
+    Read-Host "`nPressione ENTER para voltar ao menu"
 }
 #============================================================================================#
 #============================================================================================#
@@ -28,25 +28,25 @@ function Executar-Limpeza {
     # Lista de pastas a serem limpas.
     $pastas = @(
         [System.IO.Path]::GetTempPath(), # Pasta Temp do usuário atual
-        '$env:windir\Temp'               # Pasta Temp do Windows
+        "$env:windir\Temp"               # Pasta Temp do Windows
     )
 
     foreach ($pasta in $pastas) {
         if (Test-Path $pasta) {
-            Write-Log '`n🗂️  Limpando: $pasta' -ForegroundColor Cyan
+            Write-Log "`n🗂️  Limpando: $pasta" -ForegroundColor Cyan
             try {
                 # Pega os itens e os remove. O -ErrorAction SilentlyContinue ignora arquivos em uso.
                 Get-ChildItem -Path $pasta -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
-                Write-Log '✔️  Limpeza de $pasta concluída.' -ForegroundColor Green
+                Write-Log "✔️  Limpeza de $pasta concluída." -ForegroundColor Green
             } catch {
                 # Captura erros inesperados durante a limpeza.
                 Write-Log "❌ Falha ao limpar '$pasta': $($_.Exception.Message)" -ForegroundColor Red
             }
         } else {
-            Write-Log '`n⚠️ Pasta não encontrada: $pasta' -ForegroundColor Yellow
+            Write-Log "`n⚠️ Pasta não encontrada: $pasta" -ForegroundColor Yellow
         }
     }
-    Read-Host '`nPressione ENTER para voltar ao menu'
+    Read-Host "`nPressione ENTER para voltar ao menu"
 }
 #============================================================================================#
 #============================================================================================#
@@ -59,7 +59,7 @@ function Verificar-SMART {
         # Usando Get-CimInstance, que é o comando moderno.
         $discos = Get-CimInstance -ClassName Win32_DiskDrive
         foreach ($disco in $discos) {
-            Write-Host '`nModelo: $($disco.Model)'
+            Write-Host "`nModelo: $($disco.Model)"
             $status = switch ($disco.Status) {
                 'OK' { Write-Host "Status: $($disco.Status)" -ForegroundColor Green }
                 default { Write-Host "Status: $($disco.Status)" -ForegroundColor Red }
@@ -68,13 +68,13 @@ function Verificar-SMART {
     } catch {
         Write-Log "`n❌ Não foi possível verificar o status SMART. Erro: $($_.Exception.Message)" -ForegroundColor Red
     }
-    Read-Host '`nPressione ENTER para voltar ao menu'
+    Read-Host "`nPressione ENTER para voltar ao menu"
 }
 # SIG # Begin signature block
 # MIIbjgYJKoZIhvcNAQcCoIIbfzCCG3sCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7/iPizpaaPSeYmPrkYplZX3R
-# FO+gghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUAT1dyHbX8wF4ZtCBdTKUD1hd
+# 8iugghYHMIIDADCCAeigAwIBAgIQNpJ3aGZvmopKsMhVmpuZUDANBgkqhkiG9w0B
 # AQsFADAYMRYwFAYDVQQDDA1EdWNrRGV2IFRvb2xzMB4XDTI1MDYyNzAyNTY0M1oX
 # DTI2MDYyNzAzMTY0M1owGDEWMBQGA1UEAwwNRHVja0RldiBUb29sczCCASIwDQYJ
 # KoZIhvcNAQEBBQADggEPADCCAQoCggEBAKn4Kp9OE2fKY7IgOxgVryfIA2r9+xSj
@@ -195,28 +195,28 @@ function Verificar-SMART {
 # BgNVBAMMDUR1Y2tEZXYgVG9vbHMCEDaSd2hmb5qKSrDIVZqbmVAwCQYFKw4DAhoF
 # AKB4MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisG
 # AQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcN
-# AQkEMRYEFKgFdl6Sl1z3JloV1y3oBKrZlPPzMA0GCSqGSIb3DQEBAQUABIIBAFBo
-# kuifrCyj3YLzm2CbUO1p/U7sWk2vWvrhZ00JH4HC+mWXI3Mibkint9SpaS20e0o8
-# +c96qAq3J+sFPTLNyli5oBaQKREjaua6J0I3kC7pPrUvu7frIazWhBJkvdNh7k56
-# 8MJK4ZwYmqOmtM1cIJcF+SIJr3nL968pPOyCpmnuXbGrjl0WEsP1cvVg8CgOtZ6N
-# JGhtuTS8IszFFVjEVNxjTB0iciBk40+64tRPlAV4/ANFH5Kgchb2LcyOtNV7MAmK
-# Q2ivECf3cLMHkzXE529QRhx/aeDgjyKLDkUfikHeDY0rFUVjU4jfgRILHghCAo3G
-# nA/zSbndspqZgBwZ+kGhggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
+# AQkEMRYEFHVI8yexrgo2rJs5HcbQTFU+/kI+MA0GCSqGSIb3DQEBAQUABIIBAKnV
+# S7uhxGEgxXXy44e6qhgKRDeV38zQnQHNtWPISCmcgXdYdn2wOYUDQ8tym+ysOUhH
+# AEClEZQRW+MmqZL9m/30+htBC2n6sTTuzAljTSpkLwd1hR7kBc2HnFEooIlJ1Zud
+# bMYIFG+pcvBYJahjEKRAiUZRb9FV6XF+WzUWOefBNgDl7/SkKLti4TOG2abVQgmE
+# u+mEoSX5MGRACyKzqpf8NlaMR7PmsqctKXNUbZauCaVVr2YwMMMt+m3m6wANj2rW
+# 2EN6BCal3wLY+eeI+rTJFoJmbjptkz7BxY3yj6rOJJiDDVi+Id/4djtUyuIzf1z+
+# gMylyiv9TzO2vAWlVsahggMgMIIDHAYJKoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBj
 # MQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOzA5BgNVBAMT
 # MkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNBNDA5NiBTSEEyNTYgVGltZVN0YW1waW5n
 # IENBAhALrma8Wrp/lYfG+ekE4zMEMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
-# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAwOTM2WjAv
-# BgkqhkiG9w0BCQQxIgQgHvG/nyffyvR7qJP9pOXo/aegzBAeQgsQCCG9mrlZ5hUw
-# DQYJKoZIhvcNAQEBBQAEggIAXWy0OBjp5WpHD3QSauhw8/y+fcWOLri9zMfSaY7x
-# j4VdK5Rxt0a6EMkC+drSmNdhq206BnJo4DrxhjjlXzo5gj3u3bYjGoK8I7grFnFM
-# enXYEhvpOMcnpaau0ks2ManJrJaqZu/FH77deqsrqAOwPUHqKCKnC6GU7gzCTOS5
-# EdgotkSNLgXiKYKmhTx36bxQxf9GFq0yuX5MLi9DIl5t7RG1rc5Gk0STE69wMq1S
-# CQTrkEVg9otEe0D2kcR3Cnn9qysvBKTZLFnkowvxXHJGbYOMSMnmF5Mo3azHTrX9
-# lHMyBQK5ved9B1GTW4DtT6IGnkHh3ACq6RcU81ZZjaJHDgN2WwLJwt31LHQc0vhV
-# XiPRPboO6iLxRPLDyaAWZloRYK2mB/6dO7q/vRdzkaidXZjf2dJBJkkh8vlXN/VW
-# qW/7GhqU9Geh+grVlQ6XsEyiZXBydow212CetZgJ1qURyjrm81foxJe/V5TdPegi
-# 2s8rqmSbRMm2chasXzBcAYq3Xs+oWunvO5NwHhzy7cGBtguGb9oJgkWKdyP55WDv
-# ZNLYfFubaFZ4968MTMsfBGuja74RIdVboLgHqgM6K7d+nvbHpGa0ohv6rnXc3Xdv
-# Z8K5GyRTrk2gTBjwCxqiU0B0hhVCHxHNUWqS+cDtgJ07WGLGQjt6H7VFzckKGhQx
-# 6xQ=
+# AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUwNjI5MDAzMTMwWjAv
+# BgkqhkiG9w0BCQQxIgQgsgcluGt+T/vJwH7wCAYN+YbrcVxi9y8DfH5Vvk4/X9Ew
+# DQYJKoZIhvcNAQEBBQAEggIAKkM+SjCFXzcTZQ4tm5Ww87bDxcrs0YN7TUCkAhGf
+# vhfPBaGfURr7scc6lBpqOflXLMWMOG4RaaDdTP2L1EQEbgZG7yEnFNnuDdQkDpBu
+# 9hdD/AxNbmfFJrVrgrYyEWZi7R7D9owSMet5j85+PNBL/firXtnhrRytiCVkv8ha
+# 51ISe8g4arRcNOknyLbYEQ/jkB7z9Wf0C4S2bydrPvI8SbuhmFqocSXIbtmWYvIn
+# 7JeSBEMR+Oi849asS4JIIkZVi3ihYCVPPBZG4r33r0ZlaF0A4Md45CafHgybRO/4
+# Em36qooLv7no6jLirT5eeGYRKJUI0kWtpjC7adgeyJpsItGyWTV1dqgSY0q/5MlF
+# 5ajjFfiAFltkV6Fc4cUR9nlJI9tpchmZq7IOsI7qHwl0N8x0J62NcV+ljw7jyulp
+# gAWqOQCKwMKK3a8Jm7sVolZG6hLkb3tublpHBBKLsOFDshnE0aX5RfpBimN2YZR3
+# qNCnZQgFuB2+aP960t8xH2iU9z6/ZhGv51Rg0ktLDTsp9CdKrWzRmvmHkTGUS5Mo
+# czjRUO1i86db6dn3LiOIgyKiErblOXk0ad3Uyj6f5fLcDmj8feHiH1HeR7NroKzO
+# rY8gD6CZn8ad698j6S2mN/mEZPcLs7FaUcvobj64YWxjABoRGlRUT32KV6nU+1/v
+# WDY=
 # SIG # End signature block
