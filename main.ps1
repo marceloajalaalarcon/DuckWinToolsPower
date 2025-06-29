@@ -53,9 +53,7 @@ if ($PSScriptRoot) { # MODO LOCAL
     
     try {
         Write-Host "=> Baixando o manifesto de módulos..."
-        # O ideal é que seu manifest seja um JSON. Ex: '["helpers.ps1", "disk.ps1"]'
-        # Se for texto simples, use: $modulesToLoad = (irm $manifestUrl) -split "`n"
-        $modulesToLoad = irm $manifestUrl | ConvertFrom-Json
+        $modulesToLoad = irm $manifestUrl
         
         Write-Host "=> Módulos a serem verificados e carregados: $($modulesToLoad -join ', ')" -ForegroundColor Green
 
@@ -95,7 +93,7 @@ if ($PSScriptRoot) { # MODO LOCAL
 Start-Sleep -Seconds 1
 #endregion
 
-#region Verificação de Privilégios e Configuração Inicial
+# region Verificação de Privilégios e Configuração Inicial
 # ======================================================================================================================
 # 🚨 Verificação de Privilégios
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
