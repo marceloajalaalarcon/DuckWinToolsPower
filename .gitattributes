@@ -1,2 +1,2 @@
 # Mantenha scripts PowerShell sempre em CRLF, não converta
-*.ps1 -text
+*.ps1 text -diff
