@@ -3,6 +3,7 @@
 
 # Função para executar o chkdsk, limpeza dos arquivos temp e verificação stmart do SSD/HD
 function ExecutarCHKDSK {
+    Clear-Host
     Write-Log "Agendando verificação de disco (CHKDSK)..." -ForegroundColor Yellow
     Write-Log "A verificação será realizada na próxima vez que você reiniciar o computador."
     
@@ -13,6 +14,7 @@ function ExecutarCHKDSK {
 }
 
 function ExecutarLimpeza {
+    Clear-Host
     Write-Log "Iniciando Limpeza de Disco..." -ForegroundColor Cyan
     $totalLiberado = 0
     
@@ -59,6 +61,7 @@ function ExecutarLimpeza {
 }
 
 function VerificarSMART {
+    Clear-Host
     Write-Log "Verificando status SMART dos discos..."
     try {
         $disks = Get-PhysicalDisk -ErrorAction Stop

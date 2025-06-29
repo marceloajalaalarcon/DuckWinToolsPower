@@ -32,66 +32,66 @@ function NetworkRedeDebug {
     finally {
         # Uma pausa mais explícita para o usuário
         if($PausarAoFinal) {
-            Read-Host '`nPressione Enter para continuar...' | Out-Null
+            Read-Host "`nPressione Enter para continuar..." | Out-Null
         }
         
     }
 }
 
-function NetworkRede {
+function NetworkRedeDebug {
     
     # O loop do-until garante que o menu seja exibido pelo menos uma vez
-    # e continue aparecendo até que a escolha seja '0'.
+    # e continue aparecendo até que a escolha seja "0".
     do {
         Clear-Host
-        Write-Host '📅 MENU DE CONFIGURAÇÃO DE REDE' -ForegroundColor Cyan
+        Write-Host "📅 MENU DE CONFIGURAÇÃO DE REDE" -ForegroundColor Cyan
         Write-Host "`n[1] 🌐 Renovar Configurações de Rede (Liberar, Renovar, Limpar DNS)" -ForegroundColor Yellow
-        Write-Host '[2] 🔁 Reset de IP (Liberar e Renovar IP)' -ForegroundColor Yellow
-        Write-Host '[3] 🧹 Limpar DNS (Limpar cache DNS)' -ForegroundColor Yellow
-        Write-Host '[4] 📴 Desconectar IP (Liberar IP atual)' -ForegroundColor Yellow
-        Write-Host '[5] 📶 Reconectar IP (Solicitar novo IP)' -ForegroundColor Yellow
-        Write-Host '[0] ⬅️ Voltar ao menu principal' -ForegroundColor Gray
+        Write-Host "[2] 🔁 Reset de IP (Liberar e Renovar IP)" -ForegroundColor Yellow
+        Write-Host "[3] 🧹 Limpar DNS (Limpar cache DNS)" -ForegroundColor Yellow
+        Write-Host "[4] 📴 Desconectar IP (Liberar IP atual)" -ForegroundColor Yellow
+        Write-Host "[5] 📶 Reconectar IP (Solicitar novo IP)" -ForegroundColor Yellow
+        Write-Host "[0] ⬅️ Voltar ao menu principal" -ForegroundColor Gray
 
-        $escolhaREDE = Read-Host '`nEscolha uma opção'
+        $escolhaREDE = Read-Host "`nEscolha uma opção"
 
         switch ($escolhaREDE) {
-            '1' {
+            "1" {
                 # Executa cada comando sem pausar
-                Diagnostico-Rede-Debug  -Comando "ipconfig /release" -MensagemProgresso 'Liberando IP atual...' -MensagemSucesso 'IP Liberado.' -PausarAoFinal $false
-                Diagnostico-Rede-Debug  -Comando "ipconfig /renew" -MensagemProgresso 'Renovando concessão de IP...' -MensagemSucesso 'IP Renovado.' -PausarAoFinal $false
-                Diagnostico-Rede-Debug  -Comando "ipconfig /flushdns" -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
+                Diagnostico-Rede-Debug  -Comando "ipconfig /release" -MensagemProgresso "Liberando IP atual..." -MensagemSucesso "IP Liberado." -PausarAoFinal $false
+                Diagnostico-Rede-Debug  -Comando "ipconfig /renew" -MensagemProgresso "Renovando concessão de IP..." -MensagemSucesso "IP Renovado." -PausarAoFinal $false
+                Diagnostico-Rede-Debug  -Comando "ipconfig /flushdns" -MensagemProgresso "Limpando cache DNS..." -MensagemSucesso "Cache DNS limpo." -PausarAoFinal $false
             
                 # Adiciona uma mensagem final e uma única pausa
                 Write-Host "`n✅ Feito!" -ForegroundColor Green
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
-            '2' {
-                Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso 'Liberando IP atual...' -MensagemSucesso 'IP Liberado.' -PausarAoFinal $false
-                Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso 'Solicitando novo IP...' -MensagemSucesso 'Reset de IP feito.' -PausarAoFinal $false
+            "2" {
+                Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso "Liberando IP atual..." -MensagemSucesso "IP Liberado." -PausarAoFinal $false
+                Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso "Solicitando novo IP..." -MensagemSucesso "Reset de IP feito." -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
                 Write-Host "`n✅ Feito!" -ForegroundColor Green
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
-            '3' {
-                Diagnostico-Rede-Debug -Comando "ipconfig /flushdns" -MensagemProgresso 'Limpando cache DNS...' -MensagemSucesso 'Cache DNS limpo.' -PausarAoFinal $false
+            "3" {
+                Diagnostico-Rede-Debug -Comando "ipconfig /flushdns" -MensagemProgresso "Limpando cache DNS..." -MensagemSucesso "Cache DNS limpo." -PausarAoFinal $false
 
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
-            '4' {
-                Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso 'Desconectar IP...' -MensagemSucesso 'IP atual liberado.' -PausarAoFinal $false
+            "4" {
+                Diagnostico-Rede-Debug -Comando "ipconfig /release" -MensagemProgresso "Desconectar IP..." -MensagemSucesso "IP atual liberado." -PausarAoFinal $false
                 
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
-            '5' {
-                Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso 'Reconectar IP...' -MensagemSucesso 'IP renovado.' -PausarAoFinal $false
+            "5" {
+                Diagnostico-Rede-Debug -Comando "ipconfig /renew" -MensagemProgresso "Reconectar IP..." -MensagemSucesso "IP renovado." -PausarAoFinal $false
             
                 # Adiciona uma mensagem final e uma única pausa
                 Read-Host "`nPressione Enter para continuar..." | Out-Null
             }
-            '0' {
+            "0" {
                 Write-Host "`nSaindo do menu de rede..." -ForegroundColor Gray
             }
             Default {
@@ -99,7 +99,7 @@ function NetworkRede {
                 Start-Sleep -Seconds 2
             }
         }
-    } while ($escolhaREDE -ne '0')
+    } while ($escolhaREDE -ne "0")
 }
 
 function ReiniciarWU {
