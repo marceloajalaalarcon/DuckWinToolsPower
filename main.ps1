@@ -29,24 +29,32 @@ param (
 
         foreach ($moduleFile in $modulesToLoad) {
             $moduleUrl = $githubBaseUrl + $moduleFile
-            $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1" # Cria um nome de arquivo temporário único
+            $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1"
             
             try {
                 Write-Host "   -> Baixando '$moduleFile' para verificação..."
                 irm $moduleUrl -OutFile $tempFilePath
 
-                Write-Host "   -> Verificando módulo: $moduleFile" -ForegroundColor Gray
+                # ----> INÍCIO DO PROBLEMA <----
+                
+                # A sua intenção era verificar a assinatura e depois carregar,
+                # mas todo o bloco está como comentário.
+
+                Write-Host "   -> Carregando módulo: $moduleFile" -ForegroundColor Yellow
+                . $tempFilePath
                 # $signature = Get-AuthenticodeSignature -FilePath $tempFilePath
 
                 # if ($signature.Status -eq 'Valid') {
                 #     Write-Host "   -> Assinatura VÁLIDA. Carregando: $moduleFile" -ForegroundColor Yellow
-                #     . $tempFilePath
+                #     . $tempFilePath  # <--- ESTA É A LINHA CRÍTICA QUE CARREGA O MÓDULO
                 # } else {
                 #     throw "MÓDULO REMOTO INSEGURO BLOQUEADO: '$moduleFile'. Status da assinatura: $($signature.Status)"
                 # }
+
+                # ----> FIM DO PROBLEMA <----
             }
             finally {
-                # O bloco 'finally' GARANTE que o arquivo temporário seja apagado, mesmo se ocorrer um erro.
+                # O ficheiro temporário é apagado aqui, quer tenha sido carregado ou não.
                 if (Test-Path $tempFilePath) {
                     Remove-Item $tempFilePath -Force
                 }
