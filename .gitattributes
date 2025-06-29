@@ -1,0 +1,2 @@
+# Mantenha scripts PowerShell sempre em CRLF, não converta
+*.ps1 -text
