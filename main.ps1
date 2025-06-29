@@ -168,7 +168,7 @@ if (-not (Test-Path $consentFile)) {
 $Host.UI.RawUI.WindowTitle = "🔧 Ferramenta de Manutenção do Sistema - DuckDev v3.0"
 $Host.UI.RawUI.ForegroundColor = "White"
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
-Clear-Host
+# Clear-Host
 
 # Chama a função que foi carregada do helpers.ps1
 Verificar-Antivirus

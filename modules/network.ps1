@@ -45,7 +45,7 @@ function NetworkRede {
     # O loop do-until garante que o menu seja exibido pelo menos uma vez
     # e continue aparecendo até que a escolha seja "0".
     do {
-        Clear-Host
+        # Clear-Host
         Write-Host "📅 MENU DE CONFIGURAÇÃO DE REDE" -ForegroundColor Cyan
         Write-Host "`n[1] 🌐 Renovar Configurações de Rede (Liberar, Renovar, Limpar DNS)" -ForegroundColor Yellow
         Write-Host "[2] 🔁 Reset de IP (Liberar e Renovar IP)" -ForegroundColor Yellow
