@@ -2,6 +2,8 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para registrar logs e exibir mensagens na tela.
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 function Write-Log {
     param (
         [Parameter(Mandatory = $true)]

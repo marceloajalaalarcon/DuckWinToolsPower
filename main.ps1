@@ -5,6 +5,7 @@
 # Autor: Marcelo Ajala Alarcon
 # Versão: 3.0 (Final Híbrida)
 # ================================================================================
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 [CmdletBinding()]
 param (

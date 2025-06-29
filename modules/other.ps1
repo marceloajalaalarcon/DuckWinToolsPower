@@ -2,6 +2,7 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para fazer agendar tarefa de limpeza do temp diaria e limpa fila da impressora
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 function AgendarTarefa {
     Clear-Host
     Write-Log "Agendador de Tarefas de Limpeza Automática"

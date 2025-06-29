@@ -2,6 +2,8 @@
 # Descrição: Funções auxiliares para o script principal.
 
 # Função para executar o chkdsk, limpeza dos arquivos temp e verificação stmart do SSD/HD
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 function ExecutarCHKDSK {
     Clear-Host
     Write-Log "Agendando verificação de disco (CHKDSK)..." -ForegroundColor Yellow

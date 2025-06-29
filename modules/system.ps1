@@ -1,5 +1,6 @@
 # Arquivo: modules/system.ps1
 # Descrição: Funções de verificação e reparo do sistema (SFC, DISM).
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function ExecutarSFC {
     Clear-Host
