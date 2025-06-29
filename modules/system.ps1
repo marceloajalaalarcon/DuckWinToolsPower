@@ -25,12 +25,11 @@ function Executar-SFC {
 
 function Executar-DISM {
     Clear-Host
-    Write-Log '🛠️  Executando reparo da imagem do sistema (DISM)...' -ForegroundColor Yellow
-    Write-Log 'Este processo pode demorar bastante e requer conexão com a internet. Por favor, aguarde.'
+    Write-Log "🛠️  Executando reparo da imagem do sistema (DISM)..." -ForegroundColor Yellow
+    Write-Log "Este processo pode demorar bastante e requer conexão com a internet. Por favor, aguarde."
     Write-Log "Durante o uso do DISM, é normal que a porcentagem pare por um tempo em certos pontos.`nIsso não significa que travou — o processo ainda está em andamento.`nBasta aguardar a conclusão com paciência." -ForegroundColor Yellow
-    Write-Log '--------------------------------------------------------------------------------'
+    Write-Log "--------------------------------------------------------------------------------"
 
-    # --- MUDANÇA AQUI ---
     # Executamos o DISM.exe diretamente.
     DISM.exe /Online /Cleanup-Image /RestoreHealth
     
@@ -40,18 +39,18 @@ function Executar-DISM {
 
     Write-Log '--------------------------------------------------------------------------------'
     if ($exitCode -eq 0) {
-        Write-Log '`n✔️ Reparo da imagem DISM concluído com sucesso.' -ForegroundColor Green
+        Write-Log "`n✔️ Reparo da imagem DISM concluído com sucesso." -ForegroundColor Green
     } else {
         Write-Log "`n❌ Ocorreu um erro durante a execução do DISM. Código de saída: $exitCode" -ForegroundColor Red
-        Write-Log 'Consulte o log em C:\Windows\Logs\DISM\dism.log para mais detalhes.' -ForegroundColor Yellow
+        Write-Log "Consulte o log em C:\Windows\Logs\DISM\dism.log para mais detalhes." -ForegroundColor Yellow
     }
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
 # SIG # Begin signature block
 # MIIbpgYJKoZIhvcNAQcCoIIblzCCG5MCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUs+O3PvVCv4yKPVutAHr5jwZy
-# g72gghYXMIIDEDCCAfigAwIBAgIQXhD6PU/Nf7hCcH1wB8ecAjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQULWWMNBn1r+FIf8DscQkMLE+3
+# cqegghYXMIIDEDCCAfigAwIBAgIQXhD6PU/Nf7hCcH1wB8ecAjANBgkqhkiG9w0B
 # AQsFADAgMR4wHAYDVQQDDBVEdWNrRGV2LVRvb2xzLUNlcnQtVjMwHhcNMjUwNjI5
 # MDMxNDIzWhcNMjYwNjI5MDMzNDIzWjAgMR4wHAYDVQQDDBVEdWNrRGV2LVRvb2xz
 # LUNlcnQtVjMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2Zvk6iajp
@@ -172,28 +171,28 @@ function Executar-DISM {
 # +TCCBPUCAQEwNDAgMR4wHAYDVQQDDBVEdWNrRGV2LVRvb2xzLUNlcnQtVjMCEF4Q
 # +j1PzX+4QnB9cAfHnAIwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFO/1h6ZVee2oux+fRBfFekUg
-# vgWqMA0GCSqGSIb3DQEBAQUABIIBAJ8OvND9hawC9hAVNmnPA/Hvlk5bgsP5ZFY6
-# h+2LqjP00R7gZdrfkYiq2QdUVOhTbeYInWognihjfkibwf58SATusE1vsJ51g7+n
-# f/YIr2iQMexXDh2r6kUC3LloUCtsbv0DSocDSqQRelY5niqajCJiZFHradpMItD2
-# 4xg3GiLgrQr2/BOIZfKoZ4FA8TiPJ8SaEg9itINN42J1McMJ2f2lQIU/4pJCndNv
-# qr68ywwYyzz4vYJ6g8C00W7AjfqOlmAd+sr2updzuqE1p5icbMEKlWWD5FmOowVv
-# +0TJ9s2VGM4Qs+d/nweCscemKQrUsRxp+FtNSAEsm7p2s8iPFsqhggMgMIIDHAYJ
+# MAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFC7WhOB+NkHiUw8kcM4rQ7Rn
+# 50viMA0GCSqGSIb3DQEBAQUABIIBAGZ3/hp0TOAoA2j4AXiK962E8kjvaogacaH8
+# SN6xrJJrqYNtfl/x80RauFR/a+sOx1DXgF6YG5MbSMNQsHCJRTWwcTFt2ZbbQfM7
+# FTkKIZ9kXzFR7SarXlUAHqEQMlwf0emCw0njXDNogaIry1L9NqLmGmnUQ0zFPlou
+# mglynjetnbTaJqiJF6wTWS/oqAzxqcU2ivKcYyKyMdcKBF/7mSM+OIIePC3YYGHr
+# tUqdUPmAqslr8D/dHtrVsIOOJb7wKYunXSJL1FoGCT6bd/YNEcPW0otOl5kwEQ4V
+# XkGh7WNZxX2/iJwyVALtLIeH7ITYBeUI6DFaRrVj2WBBPgCkEquhggMgMIIDHAYJ
 # KoZIhvcNAQkGMYIDDTCCAwkCAQEwdzBjMQswCQYDVQQGEwJVUzEXMBUGA1UEChMO
 # RGlnaUNlcnQsIEluYy4xOzA5BgNVBAMTMkRpZ2lDZXJ0IFRydXN0ZWQgRzQgUlNB
 # NDA5NiBTSEEyNTYgVGltZVN0YW1waW5nIENBAhALrma8Wrp/lYfG+ekE4zMEMA0G
 # CWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG
-# 9w0BCQUxDxcNMjUwNjI5MDQyNjQyWjAvBgkqhkiG9w0BCQQxIgQgwqS23kuJdaf8
-# iLk3ubQ5MRyW0+X/Km7eVHfZpLuS7xkwDQYJKoZIhvcNAQEBBQAEggIARPrzXlm0
-# LGBUEzd/vfj3Ynu+frU6wKNtI4MXcl3zDEd3GhbKlrjEMO6vi7kduvh2uaiQjsZK
-# yODuPA0oX7jgBY/D9+C/bgZ/nq9TfydFza3aMkN9HCeTAJHmxXujcV+paVOZFADB
-# kXUJb9bm3AEJirY4J0l0bxNxBQlju6s6gumMeDQoDlFCGzqN2jTXrbD9LYFsBCze
-# fUmKHGrI6F1FgiKzCwWmi+YJdv7c2/1lCyUFvuRa8xpXRlPgRlHXqQVMqfpzls+r
-# kKs40tIoSATCQXCqa5zBDf+6OLRcpoo5jiB0BkEl4FlrhmILi34i6Llarz7PWnVq
-# BUrYB4ldcDfT8Uy/XeS4dAjtEa3w4l6xbY8s1p8b3ZfgjPLgSH3jdP0+bvB4cqmF
-# 2dlvhoceCk977bsLnuOtXEBelt4PU90VWTqwyalUGugmxzpFB7UdU4spdPiQ3m4F
-# vNDTGcZxlBGz6YUspw0S//O1w+WC7o/PyBzDmhFlPudcircN0PaBGIqd6bc3+g0W
-# Dp0qF/QXLpPGR07MdPEFsAox0BlmvCS+pKa7XG89ls6N1lkmvwUGHSeMj2wwwriI
-# wccYwQcXYz/OHXf1y1tQwHzIJWhvnXPVg7x6vEkSlurDuKz1Q6awggZ/d0UOhjTy
-# kgz3ia2Qy5GCpqeC/4EjhC8YIgD9zJ7dxMc=
+# 9w0BCQUxDxcNMjUwNjI5MDQyOTM1WjAvBgkqhkiG9w0BCQQxIgQg00DGtx715Yij
+# ADF48LUslg4PmxVYCf8X8Dtj625j/7UwDQYJKoZIhvcNAQEBBQAEggIAP16of+GY
+# rK0PZzj0sfZ1rhw0QcpfuIigUrXQEKNv5MXoIq9lc3FTDgoh/ywfojEPtR8ch4j6
+# Zam5AAP5w+e5X9PWKDro9X4+CGdBNqoHID3qacU09Z9G/0/wIaFskqcWteaB+D0G
+# kclW8xLwNZp28mMbExOqruGlbENqmRNlU3tV+J2G79240O0BhXVYpq1aLHOLW/8B
+# DM3C6UPFFLgDWKnDc6LHxBZ8w1OH+IVZVXHw4alqbwPOFYSBZjxrGKmcfWo1y1Rk
+# tHdcmg3LizVUJjRTsqEYcrslGJ3WXRMzXHGBSnJDYhXVfFAj60Rjx4qD1GGfUzVv
+# OhpkvFcsEA7N8WBCtITar5ZROtJEwPTF8M59CBgGqqewAu9dJtmQkigb/fXQO8aK
+# 7PBzeUGY5aK6c6/bDZov8Qf21pR9OX56ijbfIpl3SXSMaTfl2USGRlfs2rfwZgie
+# nqZanO35cszTK9Iy3uOwUXziyc4g5vYeFC01q2qUv9fq/WzlXkrMAhGajDLbJCwT
+# tgB/oy5zmV0bBffiepMfZapODQa3tM1KdiB9w+iDjn8uElUzw2u6+ViE2kq4RGGA
+# TLQYwS0o1KtE0EkFB5Q8LeSS+/UZ3sVEobBwb8GmT8PeQCmHbMMExkeYj9lFOt5V
+# LJiCP8IvrQ+siHWkJGx5u0MM8C8cR0GBViM=
 # SIG # End signature block
