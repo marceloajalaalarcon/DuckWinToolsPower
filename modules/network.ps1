@@ -1,4 +1,7 @@
+# Arquivo: modules/network.ps1
+# Descrição: Funções auxiliares para o script principal.
 
+# Função para fazer limpeza do ip, solicitar novo ip e limpa cache dns e reiniciar windows update
 function RedeDebug {
     param (
         [Parameter(Mandatory=$true)]
