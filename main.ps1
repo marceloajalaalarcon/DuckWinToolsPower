@@ -17,56 +17,57 @@ param (
 #  Carrega os módulos de acordo.
 # ==============================================================================
 
-    Write-Host "✅ Detectado modo de execução remoto (GitHub) com verificação de assinatura." -ForegroundColor Cyan
-    $githubBaseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/'
-    $manifestUrl = $githubBaseUrl + "modules.json"
+Write-Host "✅ Detectado modo de execução remoto (GitHub) com verificação de assinatura." -ForegroundColor Cyan
+$githubBaseUrl = 'https://raw.githubusercontent.com/marceloajalaalarcon/DuckWinToolsPower/refs/heads/main/modules/'
+$manifestUrl = $githubBaseUrl + "modules.json"
     
-    try {
-        Write-Host "=> Baixando o manifesto de módulos..."
-        $modulesToLoad = irm $manifestUrl
+try {
+    Write-Host "=> Baixando o manifesto de módulos..."
+    $modulesToLoad = irm $manifestUrl
         
-        Write-Host "=> Módulos a serem verificados e carregados: $($modulesToLoad -join ', ')" -ForegroundColor Green
+    Write-Host "=> Módulos a serem verificados e carregados: $($modulesToLoad -join ', ')" -ForegroundColor Green
 
-        foreach ($moduleFile in $modulesToLoad) {
-            $moduleUrl = $githubBaseUrl + $moduleFile
-            $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1"
+    foreach ($moduleFile in $modulesToLoad) {
+        $moduleUrl = $githubBaseUrl + $moduleFile
+        $tempFilePath = Join-Path $env:TEMP "$([System.Guid]::NewGuid()).ps1"
             
-            try {
-                Write-Host "   -> Baixando '$moduleFile' para verificação..."
-                irm $moduleUrl -OutFile $tempFilePath
+        try {
+            Write-Host "   -> Baixando '$moduleFile' para verificação..."
+            irm $moduleUrl -OutFile $tempFilePath
 
-                # ----> INÍCIO DO PROBLEMA <----
+            # ----> INÍCIO DO PROBLEMA <----
                 
-                # A sua intenção era verificar a assinatura e depois carregar,
-                # mas todo o bloco está como comentário.
+            # A sua intenção era verificar a assinatura e depois carregar,
+            # mas todo o bloco está como comentário.
 
-                Write-Host "   -> Carregando módulo: $moduleFile" -ForegroundColor Yellow
-                . $tempFilePath
-                # $signature = Get-AuthenticodeSignature -FilePath $tempFilePath
+            Write-Host "   -> Carregando módulo: $moduleFile" -ForegroundColor Yellow
+            . $tempFilePath
+            # $signature = Get-AuthenticodeSignature -FilePath $tempFilePath
 
-                # if ($signature.Status -eq 'Valid') {
-                #     Write-Host "   -> Assinatura VÁLIDA. Carregando: $moduleFile" -ForegroundColor Yellow
-                #     . $tempFilePath  # <--- ESTA É A LINHA CRÍTICA QUE CARREGA O MÓDULO
-                # } else {
-                #     throw "MÓDULO REMOTO INSEGURO BLOQUEADO: '$moduleFile'. Status da assinatura: $($signature.Status)"
-                # }
+            # if ($signature.Status -eq 'Valid') {
+            #     Write-Host "   -> Assinatura VÁLIDA. Carregando: $moduleFile" -ForegroundColor Yellow
+            #     . $tempFilePath  # <--- ESTA É A LINHA CRÍTICA QUE CARREGA O MÓDULO
+            # } else {
+            #     throw "MÓDULO REMOTO INSEGURO BLOQUEADO: '$moduleFile'. Status da assinatura: $($signature.Status)"
+            # }
 
-                # ----> FIM DO PROBLEMA <----
-            }
-            finally {
-                # O ficheiro temporário é apagado aqui, quer tenha sido carregado ou não.
-                if (Test-Path $tempFilePath) {
-                    Remove-Item $tempFilePath -Force
-                }
+            # ----> FIM DO PROBLEMA <----
+        }
+        finally {
+            # O ficheiro temporário é apagado aqui, quer tenha sido carregado ou não.
+            if (Test-Path $tempFilePath) {
+                Remove-Item $tempFilePath -Force
             }
         }
-        Write-Host "✔️ Todos os módulos remotos seguros foram carregados com sucesso!" -ForegroundColor Green
-    } catch {
-        Write-Host "❌ ERRO DE SEGURANÇA OU CARREGAMENTO REMOTO" -ForegroundColor Red
-        Write-Host "$($_.Exception.Message)"
-        Read-Host "Pressione ENTER para sair."
-        exit
     }
+    Write-Host "✔️ Todos os módulos remotos seguros foram carregados com sucesso!" -ForegroundColor Green
+}
+catch {
+    Write-Host "❌ ERRO DE SEGURANÇA OU CARREGAMENTO REMOTO" -ForegroundColor Red
+    Write-Host "$($_.Exception.Message)"
+    Read-Host "Pressione ENTER para sair."
+    exit
+}
 Start-Sleep -Seconds 1
 #endregion
 
@@ -160,7 +161,8 @@ if (-not (Test-Path $consentFile)) {
     $userChoice = Mostrar-TermoDeUso
     if ($userChoice.Action -eq 'Proceed') {
         if ($userChoice.SaveConsent) { Set-Content -Path $consentFile -Value "Termos aceitos em $(Get-Date)" | Out-Null }
-    } else {
+    }
+    else {
         Write-Host "`nVocê não aceitou os termos. O script será encerrado." -ForegroundColor Red; Start-Sleep -Seconds 3; exit
     }
 }

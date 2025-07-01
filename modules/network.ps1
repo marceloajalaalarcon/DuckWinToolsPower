@@ -4,16 +4,16 @@
 # Função para fazer limpeza do ip, solicitar novo ip e limpa cache dns e reiniciar windows update
 function RedeDebug {
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string]$Comando,
 
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string]$MensagemSucesso,
 
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string]$MensagemProgresso,
         
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [boolean]$PausarAoFinal = $true
     )
 
@@ -31,7 +31,7 @@ function RedeDebug {
     }
     finally {
         # Uma pausa mais explícita para o usuário
-        if($PausarAoFinal) {
+        if ($PausarAoFinal) {
             Read-Host "`nPressione Enter para continuar..." | Out-Null
         }
         
@@ -127,7 +127,8 @@ function ReiniciarUpdate {
         Start-Service -Name $servicos -ErrorAction Stop
 
         Write-Log "`n✔️ Componentes do Windows Update redefinidos com sucesso." -ForegroundColor Green
-    } catch {
+    }
+    catch {
         Write-Log "`n❌ Falha ao redefinir o Windows Update. Erro: $($_.Exception.Message)" -ForegroundColor Red
         Write-Log "Pode ser necessário reiniciar o computador." -ForegroundColor Yellow
     }
