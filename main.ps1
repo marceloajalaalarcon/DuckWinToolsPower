@@ -33,7 +33,7 @@ try {
             
         try {
             Write-Host "   -> Baixando '$moduleFile' para verificação..."
-            irm $moduleUrl -OutFile $tempFilePath
+            irm $moduleUrl | iex
 
             # ----> INÍCIO DO PROBLEMA <----
                 
@@ -223,7 +223,7 @@ do {
         "4" { ExecutarLimpeza }
         "5" { VerificarSMART }
         "6" { Rede }
-        "7" { ReiniciarUpdate }
+        "7" { ReiniciarUp }
         "8" { AgendarTarefa }
         "9" { Limpar-FilaImpressao }
         default { Write-Log "`n❗ Opção inválida." -ForegroundColor Red; Start-Sleep -Seconds 2 }
