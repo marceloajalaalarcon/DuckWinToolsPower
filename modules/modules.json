@@ -2,7 +2,6 @@
   "helpers.ps1",
   "system.ps1",
   "disk.ps1",
-  "network.ps1",
   "rede.ps1",
   "other.ps1"
 ]
