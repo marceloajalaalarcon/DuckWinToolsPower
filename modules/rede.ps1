@@ -10,7 +10,7 @@ function RedeDebug{
         [Parameter(Mandatory=$true)]
         [string]$MensagemProgresso,
         [Parameter(Mandatory=$true)]
-        [string]$MensagemSucesso
+        [string]$MensagemSucesso,
         [Parameter(Mandatory=$false)]
         [boolean]$PausarAoFinal = $true
     )
@@ -111,6 +111,6 @@ function ReiniciarUp{
         Write-Log "`n❌ Falha ao redefinir o Windows Update. Erro: $($_.Exception.Message)" -ForegroundColor Red
         Write-Log "Pode ser necessário reiniciar o computador." -ForegroundColor Yellow
     }
-    
+
     Read-Host "`nPressione ENTER para voltar ao menu"
 }
