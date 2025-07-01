@@ -33,7 +33,7 @@ try {
             
         try {
             Write-Host "   -> Baixando '$moduleFile' para verificação..."
-            irm $moduleUrl | iex
+            irm $moduleUrl -OutFile $tempFilePath
 
             # ----> INÍCIO DO PROBLEMA <----
                 
